@@ -1,0 +1,11 @@
+.dc-chart g.state path {
+    stroke: #08306b;
+}
+
+.dc-chart .selected path {
+    stroke-width: 1;
+}
+
+.dc-chart g.deselected path{
+    fill: #afafaf;
+}
