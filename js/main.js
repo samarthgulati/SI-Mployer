@@ -2,7 +2,7 @@
      var url = 'https://spreadsheets.google.com/feeds/list/1j17ANt3kBna-uU4CiQ0Tbcx7esPVzJ_YAy5x1C9pazY/1/public/basic?alt=json';
      $.get(url, function(json, status) {
          var input = json.feed.entry;
-         var columns = ['companyname', 'jobtitle-careerpathway', 'salary', 'state', 'industry', 'year'];
+         var columns = ['companyname', 'jobtitle', 'jobcategory', 'salary', 'state', 'industry', 'year'];
          var json = [];
          for (var i in input) {
              var row = {};
