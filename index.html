@@ -7,15 +7,55 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
     <link rel="stylesheet" href="css/dc.css"></link>
     <link rel="stylesheet" href="css/style.css"></link>
+     <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container">
+        <div class="content">
+            <h1>SI Mployer</h1>
+            <p class="lead">Helping you understand the job situation after UMSI</p>
+        </div>
+        <div class="description">
+        </div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#location" aria-controls="location" role="tab" data-toggle="tab">Location</a></li>
+            <li role="presentation"><a href="#company" aria-controls="company" role="tab" data-toggle="tab">Company</a></li>
+            <li role="presentation"><a href="#category" aria-controls="category" role="tab" data-toggle="tab">Job Category</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="location">...</div>
+            <div role="tabpanel" class="tab-pane" id="company">...</div>
+            <div role="tabpanel" class="tab-pane" id="category">...</div>
+        </div>
+
+    </div><!-- /.container -->
+
     <!-- <table class="table-hover table-bordered">
         <thead>
             <tr></tr>
         </thead>
         <tbody></tbody>
     </table> -->
+    <!-- JavaScript for tabs -->
+    <script>
+        $('#myTabs a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        })
+    </script>
+    
+    <!-- Bootstrap script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    
+    <!-- Script with the charts -->
     <div id="us-chart"></div>
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     <script src="js/d3.v3.js"></script>
@@ -24,3 +64,4 @@
     <script src="js/main.js"></script>
 </body>
 </html>
+
