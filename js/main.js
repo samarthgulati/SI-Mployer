@@ -1,5 +1,6 @@
  $(document).ready(function() {
-     var columns = ['companyname', 'jobtitle', 'jobcategory', 'salary', 'state', 'industry', 'year'];
+     var columns = ['id', 'companyname', 'jobtitle', 'jobcategory', 'salary', 'infladj15', 'state', 'industry', 'year'];
+     var statesW2E = ['HI', 'AK', 'OR', 'WA', 'CA', 'NV', 'ID', 'AZ', 'MT', 'UT', 'NM', 'CO', 'WY', 'ND', 'SD', 'TX', 'OK', 'NE', 'KS', 'IA', 'MN', 'AR', 'MO', 'LA', 'MS', 'IL', 'WI', 'TN', 'AL', 'IN', 'KY', 'MI', 'GA', 'FL', 'OH', 'WV', 'SC', 'NC', 'VA', 'DC', 'PA', 'MD', 'DE', 'NJ', 'NY', 'CT', 'VT', 'NH', 'RI', 'MA', 'ME'];
      var col = [],
          json = [],
          statesJson = {};
@@ -28,11 +29,13 @@
                      } else {
                          row[columns[j]] = input[i].content.$t.split(columns[j] + ': ')[1];
                      }
-                     if (row[columns[j]] == 'N/A' || row[columns[j]] == 'n/a') {
+                     if (row[columns[j]].toUpperCase() == 'N/A') {
                          row.invalid = true;
                      }
                  }
                  if (typeof row.invalid == 'undefined') {
+                     row['stateLoc'] = statesW2E.indexOf(row.state) + 1;
+                     if (row['stateLoc'] === 0) row['stateLoc'] = statesW2E.length + 2;
                      json.push(row);
                  }
              }
@@ -40,7 +43,6 @@
          getUrlData(colUrl).done(function(data) {
              col = data;
          });
-
          getUrlData(statesUrl).done(function(data) {
              statesJson = data;
          });
@@ -67,9 +69,9 @@
 
      var usChart = dc.geoChoroplethChart("#us-chart");
 
-     var data = crossfilter(col);
+     var states_data = crossfilter(col);
 
-     var states = data.dimension(function(d) {
+     var states = states_data.dimension(function(d) {
          return d.code;
      });
 
@@ -87,7 +89,7 @@
              return d.index;
          }), d3.max(col, function(d) {
              return d.index;
-         })]).range(['#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b']))
+         })]).range(['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b']))
          .colorCalculator(function(d) {
              return d ? usChart.colors()(d) : '#ccc';
          })
@@ -97,49 +99,93 @@
          .title(function(d) {
              return "State: " + d.key + "\nCoL Index: " + d.value;
          });
-     /*industryChart.width(990)
-          .height(200)
-          .margins({
-              top: 10,
-              right: 50,
-              bottom: 30,
-              left: 60
-          })
-          .dimension(industries)
-          .group(statsByIndustries)
-          .colors(d3.scale.category10())
-          .keyAccessor(function(p) {
-              return p.value.amountRaised;
-          })
-          .valueAccessor(function(p) {
-              return p.value.deals;
-          })
-          .radiusValueAccessor(function(p) {
-              return p.value.amountRaised;
-          })
-          .x(d3.scale.linear().domain([0, 5000]))
-          .r(d3.scale.linear().domain([0, 4000]))
-          .minRadiusWithLabel(15)
-          .elasticY(true)
-          .yAxisPadding(100)
-          .elasticX(true)
-          .xAxisPadding(200)
-          .maxBubbleRelativeSize(0.07)
-          .renderHorizontalGridLines(true)
-          .renderVerticalGridLines(true)
-          .renderLabel(true)
-          .renderTitle(true)
-          .title(function(p) {
-              return p.key + "\n" + "Amount Raised: " + numberFormat(p.value.amountRaised) + "M\n" + "Number of Deals: " + numberFormat(p.value.deals);
-          });
-      industryChart.yAxis().tickFormat(function(s) {
-          return s + " deals";
-      });
-      industryChart.xAxis().tickFormat(function(s) {
-          return s + "M";
-      });
+     //console.log(json);
+     var salartyChart = dc.seriesChart("#industry-chart");
+     var cdo_data = crossfilter(json);
+     var cdo_state = cdo_data.dimension(function(d) {
+         return [d.stateLoc, d.salary, d.jobcategory];
+     });
+     var cdo_salary = cdo_state.group();
+     var subChart = function(c) {
+         return dc.scatterPlot(c)
+             .symbolSize(8)
+             .highlightedSize(10);
+     };
 
-      roundChart.width(990)
+
+     /* var cdo_salary = cdo_id.group().reduce(
+         function(p, v) {
+             p.state = v.stateLoc;
+             p.salary = v.salary;
+             return p;
+         },
+         function(p, v) {
+             p.state = v.state;
+             p.salary = v.salary;
+             return p;
+         },
+         function(p, v) {
+             p.state = '';
+             p.salary = 0;
+             return p;
+         });
+*/
+     /*salartyChart.width(1280)
+         .height(400)
+         .margins({
+             top: 10,
+             right: 50,
+             bottom: 30,
+             left: 60
+         })
+         .dimension(cdo_state)
+         .group(cdo_salary)
+         .y(d3.scale.linear().domain([0, 170000]))
+         .x(d3.scale.linear().domain([0, 53]))
+         .brushOn(false)
+         .symbolSize(5)
+         .clipPadding(10)
+         .yAxisLabel('Salary (in USD)');
+     console.log(salartyChart.data());*/
+
+     salartyChart
+         .width(1140)
+         .height(window.outerHeight/2.2)
+         .margins({
+             top: 10,
+             right: 50,
+             bottom: 30,
+             left: 60
+         })
+         .chart(subChart)
+         .y(d3.scale.linear().domain([0, 170000]))
+         .x(d3.scale.linear().domain([0, 53]))
+         .brushOn(true)
+         .yAxisLabel('Salary (in USD)')
+         .xAxisLabel('States')
+         .clipPadding(10)
+         //.elasticY(true)
+         .dimension(cdo_state)
+         .group(cdo_salary)
+         .mouseZoomable(false)
+         .seriesAccessor(function(d) {
+             return d.key[2];
+         })
+         .keyAccessor(function(d) {
+             return d.key[0];
+         })
+         .valueAccessor(function(d) {
+             return d.key[1];
+         });
+         //.legend(dc.legend().x(350).y(350).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
+     /*industryChart.yAxis().tickFormat(function(s) {
+         return s + " deals";
+     });*/
+     /*industryChart.xAxis().tickFormat(function(s) {
+         return s + "M";
+     });*/
+
+     /* roundChart.width(990)
           .height(200)
           .margins({
               top: 10,

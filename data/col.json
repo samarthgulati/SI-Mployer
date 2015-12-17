@@ -2,255 +2,306 @@
     "state": "Mississippi",
     "code": "MS",
     "rank": 1,
-    "index": 83.4
+    "index": 83.4,
+    "longitude": 90.18
 }, {
     "state": "Idaho",
     "code": "ID",
     "rank": 2,
-    "index": 87.1
+    "index": 87.1,
+    "longitude": 116.2
 }, {
     "state": "Indiana",
     "code": "IN",
     "rank": 3,
-    "index": 87.6
+    "index": 87.6,
+    "longitude": 86.17
 }, {
     "state": "Oklahoma",
     "code": "OK",
     "rank": 4,
-    "index": 89.5
+    "index": 89.5,
+    "longitude": 97.5
 }, {
     "state": "Tennessee",
     "code": "TN",
     "rank": 5,
-    "index": 90.1
+    "index": 90.1,
+    "longitude": 86.78
 }, {
     "state": "Alabama",
     "code": "AL",
     "rank": 6,
-    "index": 90.2
+    "index": 90.2,
+    "longitude": 86.3
 }, {
     "state": "Kentucky",
     "code": "KY",
     "rank": 7,
-    "index": 90.8
+    "index": 90.8,
+    "longitude": 84.88
 }, {
     "state": "Kansas",
     "code": "KS",
     "rank": 8,
-    "index": 91.0
+    "index": 91.0,
+    "longitude": 95.68
 }, {
     "state": "Nebraska",
     "code": "NE",
     "rank": 9,
-    "index": 91.1
+    "index": 91.1,
+    "longitude": 96.7
 }, {
     "state": "Arkansas",
     "code": "AR",
     "rank": 10,
-    "index": 91.1
+    "index": 91.1,
+    "longitude": 92.28
 }, {
     "state": "Missouri",
     "code": "MO",
     "rank": 11,
-    "index": 91.2
+    "index": 91.2,
+    "longitude": 92.17
 }, {
     "state": "Michigan",
     "code": "MI",
     "rank": 12,
-    "index": 91.5
+    "index": 91.5,
+    "longitude": 84.55
 }, {
     "state": "Georgia",
     "code": "GA",
     "rank": 13,
-    "index": 91.6
+    "index": 91.6,
+    "longitude": 84.38
 }, {
     "state": "Texas",
     "code": "TX",
     "rank": 14,
-    "index": 91.6
+    "index": 91.6,
+    "longitude": 97.73
 }, {
     "state": "Iowa",
     "code": "IA",
     "rank": 15,
-    "index": 91.9
+    "index": 91.9,
+    "longitude": 93.6
 }, {
     "state": "Utah",
     "code": "UT",
     "rank": 16,
-    "index": 92.5
+    "index": 92.5,
+    "longitude": 111.88
 }, {
     "state": "Louisiana",
     "code": "LA",
     "rank": 17,
-    "index": 93.0
+    "index": 93.0,
+    "longitude": 91.18
 }, {
     "state": "Wyoming",
     "code": "WY",
     "rank": 18,
-    "index": 93.5
+    "index": 93.5,
+    "longitude": 104.82
 }, {
     "state": "Ohio",
     "code": "OH",
     "rank": 19,
-    "index": 93.8
+    "index": 93.8,
+    "longitude": 83
 }, {
     "state": "Virginia",
     "code": "VA",
     "rank": 20,
-    "index": 94.4
+    "index": 94.4,
+    "longitude": 77.43
 }, {
     "state": "North Carolina",
     "code": "NC",
     "rank": 21,
-    "index": 94.6
+    "index": 94.6,
+    "longitude": 78.63
 }, {
     "state": "New Mexico",
     "code": "NM",
     "rank": 22,
-    "index": 95.6
+    "index": 95.6,
+    "longitude": 105.93
 }, {
     "state": "Illinois",
     "code": "IL",
     "rank": 23,
-    "index": 96.5
+    "index": 96.5,
+    "longitude": 89.65
 }, {
     "state": "South Carolina",
     "code": "SC",
     "rank": 24,
-    "index": 97.1
+    "index": 97.1,
+    "longitude": 81.03
 }, {
     "state": "Wisconsin",
     "code": "WI",
     "rank": 25,
-    "index": 98.3
+    "index": 98.3,
+    "longitude": 89.38
 }, {
     "state": "Arizona",
     "code": "AZ",
     "rank": 26,
-    "index": 98.6
+    "index": 98.6,
+    "longitude": 112.1
 }, {
     "state": "Florida",
     "code": "FL",
     "rank": 27,
-    "index": 99.5
+    "index": 99.5,
+    "longitude": 84.28
 }, {
     "state": "Minnesota",
     "code": "MN",
     "rank": 28,
-    "index": 100.2
+    "index": 100.2,
+    "longitude": 93.1
 }, {
     "state": "North Dakota",
     "code": "ND",
     "rank": 29,
-    "index": 101.8
+    "index": 101.8,
+    "longitude": 100.78
 }, {
     "state": "Delaware",
     "code": "DE",
     "rank": 30,
-    "index": 102.0
+    "index": 102.0,
+    "longitude": 75.52
 }, {
     "state": "Pennsylvania",
     "code": "PA",
     "rank": 31,
-    "index": 102.6
+    "index": 102.6,
+    "longitude": 76.88
 }, {
     "state": "Montana",
     "code": "MT",
     "rank": 32,
-    "index": 102.9
+    "index": 102.9,
+    "longitude": 112.02
 }, {
     "state": "West Virginia",
     "code": "WV",
     "rank": 33,
-    "index": 102.9
+    "index": 102.9,
+    "longitude": 81.62
 }, {
     "state": "Colorado",
     "code": "CO",
     "rank": 34,
-    "index": 103.4
+    "index": 103.4,
+    "longitude": 104.98
 }, {
     "state": "South Dakota",
     "code": "SD",
     "rank": 35,
-    "index": 106.3
+    "index": 106.3,
+    "longitude": 100.35
 }, {
     "state": "Nevada",
     "code": "NV",
     "rank": 36,
-    "index": 107.4
+    "index": 107.4,
+    "longitude": 119.77
 }, {
     "state": "Washington",
     "code": "WA",
     "rank": 37,
-    "index": 107.8
+    "index": 107.8,
+    "longitude": 122.9
 }, {
     "state": "Maine",
     "code": "ME",
     "rank": 38,
-    "index": 113.1
+    "index": 113.1,
+    "longitude": 69.78
 }, {
     "state": "New Hampshire",
     "code": "NH",
     "rank": 39,
-    "index": 119.1
+    "index": 119.1,
+    "longitude": 71.53
 }, {
     "state": "Maryland",
     "code": "MD",
     "rank": 40,
-    "index": 123.0
+    "index": 123.0,
+    "longitude": 76.48
 }, {
     "state": "Rhode Island",
     "code": "RI",
     "rank": 41,
-    "index": 123.1
+    "index": 123.1,
+    "longitude": 71.42
 }, {
     "state": "Vermont",
     "code": "VT",
     "rank": 42,
-    "index": 124.1
+    "index": 124.1,
+    "longitude": 72.58
 }, {
     "state": "New Jersey",
     "code": "NJ",
     "rank": 43,
-    "index": 124.7
+    "index": 124.7,
+    "longitude": 74.77
 }, {
     "state": "Oregon",
     "code": "OR",
     "rank": 44,
-    "index": 126.7
+    "index": 126.7,
+    "longitude": 123.03
 }, {
     "state": "Massachusetts",
     "code": "MA",
     "rank": 45,
-    "index": 130.6
+    "index": 130.6,
+    "longitude": 71.07
 }, {
     "state": "Connecticut",
     "code": "CT",
     "rank": 46,
-    "index": 130.8
+    "index": 130.8,
+    "longitude": 72.68
 }, {
     "state": "Alaska",
     "code": "AK",
     "rank": 47,
-    "index": 131.3
+    "index": 131.3,
+    "longitude": 134.42
 }, {
     "state": "California",
     "code": "CA",
     "rank": 48,
-    "index": 135.3
+    "index": 135.3,
+    "longitude": 121.5
 }, {
     "state": "New York",
     "code": "NY",
     "rank": 49,
-    "index": 143.5
+    "index": 143.5,
+    "longitude": 73.75
 }, {
     "state": "District of Columbia",
     "code": "DC",
     "rank": 50,
-    "index": 149.3
+    "index": 149.3,
+    "longitude": 77.01
 }, {
     "state": "Hawaii",
     "code": "HI",
     "rank": 51,
-    "index": 167.4
+    "index": 167.4,
+    "longitude": 157.85
 }]
