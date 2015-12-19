@@ -1,11 +1,46 @@
+body{
+	position:relative;
+}
+
+.tool{
+	line-height: 1;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+	border-radius: 2px;
+	position: absolute;
+}
+
+#treemap {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: auto;
+	position: relative;
+	width: 960px;
+}
+
+form {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+#treemap .node {
+	border: solid 1px white;
+	font: 10px sans-serif;
+	line-height: 12px;
+	overflow: hidden;
+	position: absolute;
+	text-indent: 2px;
+}
+
 .dc-chart g.state path {
-    stroke: #08306b;
+	stroke: #08306b;
 }
 
 .dc-chart .selected path {
-    stroke-width: 1;
+	stroke-width: 1;
 }
 
 .dc-chart g.deselected path{
-    fill: #afafaf;
+	fill: #afafaf;
 }
