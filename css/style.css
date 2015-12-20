@@ -1,11 +1,35 @@
-.dc-chart g.state path {
+.tab-pane {
+	margin: auto 0;
+}
+
+.state {
     stroke: #08306b;
-}
-
-.dc-chart .selected path {
     stroke-width: 1;
+    cursor: pointer;
 }
 
-.dc-chart g.deselected path{
-    fill: #afafaf;
+.state:hover {
+    stroke-width: 2;
+}
+
+.state.unselected {
+    fill: #efefef;
+}
+
+.dot, .legend {
+    cursor: pointer;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.tooltip {
+    background-color: #fff;
+    border-radius: 4px;
+    border: #aeaeae 1px solid;
+    padding: 4px;
 }

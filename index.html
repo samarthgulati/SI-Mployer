@@ -24,7 +24,9 @@
             <p>Below we have an interactive visualization displaying data from 2011&ndash;2014 career surveys. Through the use of brushing and selection, we will let you explore the data and identify tradeoffs between different jobs, locations, and salaries.</p>
             <p>There are a couple of things to keep in mind while looking through the data. First of all, keep in mind that the data shown below only indicates salary. Additional benefits like insurance, vacation or sick days, retirement, and other fringe benefits are not reflected. Also, we have two toggles for salary. One adjusts the salary based on inflation, and the other adjusts it based on the cost of living index for each state. Through these toggles we are attempting to provide you both the actual data, and data that is more relevant to you when comparing across two jobs in different states.</p>
             <p>In addition to the salary display, we have a number of visualizations intended to show and allow selection of job locations, company name, and job category. To help you use this visualization, we have created a step-by-step interaction you can go through to get the salary range based on your criteria. If you just want to explore the interaction, click the 'end the story' button</p>
-            <p><div id="industry-chart"></div></p>
+            <p>
+                <div id="salary"></div>
+            </p>
         </div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -48,6 +50,13 @@
         </thead>
         <tbody></tbody>
     </table> -->
+    <!-- Bootstrap script -->
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/colorbrewer.js"></script>
+    <!-- Script with the charts -->
+    <script src="js/d3.v3.js"></script>
+    <script src="js/main.js"></script>
     <!-- JavaScript for tabs -->
     <script>
     $('#myTabs a').click(function(e) {
@@ -55,15 +64,6 @@
         $(this).tab('show');
     });
     </script>
-    <!-- Bootstrap script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Script with the charts -->
-    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
-    <script src="js/d3.v3.js"></script>
-    <script src="js/crossfilter.js"></script>
-    <script src="js/dc.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>

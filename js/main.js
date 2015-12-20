@@ -1,9 +1,14 @@
  $(document).ready(function() {
      var columns = ['id', 'companyname', 'jobtitle', 'jobcategory', 'salary', 'infladj15', 'state', 'industry', 'year'];
-     var statesW2E = ['HI', 'AK', 'OR', 'WA', 'CA', 'NV', 'ID', 'AZ', 'MT', 'UT', 'NM', 'CO', 'WY', 'ND', 'SD', 'TX', 'OK', 'NE', 'KS', 'IA', 'MN', 'AR', 'MO', 'LA', 'MS', 'IL', 'WI', 'TN', 'AL', 'IN', 'KY', 'MI', 'GA', 'FL', 'OH', 'WV', 'SC', 'NC', 'VA', 'DC', 'PA', 'MD', 'DE', 'NJ', 'NY', 'CT', 'VT', 'NH', 'RI', 'MA', 'ME'];
+     var statesW2E = ['HI', 'AK', 'OR', 'WA', 'CA', 'NV', 'ID', 'AZ', 'MT', 'UT', 'NM', 'CO', 'WY', 'ND', 'SD', 'TX', 'OK', 'NE', 'KS', 'IA', 'MN', 'AR', 'MO', 'LA', 'MS', 'IL', 'WI', 'TN', 'AL', 'IN', 'KY', 'MI', 'GA', 'FL', 'OH', 'WV', 'SC', 'NC', 'VA', 'DC', 'PA', 'MD', 'DE', 'NJ', 'NY', 'CT', 'VT', 'NH', 'RI', 'MA', 'ME', 'Intl'];
      var col = [],
          json = [],
-         statesJson = {};
+         usJson = {};
+     var selected = {};
+     selected.states = statesW2E;
+     selected.jobtitles = [];
+     selected.salaryRange = [];
+     selected.companies = [];
 
      var getUrlData = function(url) {
          return $.ajax({
@@ -17,7 +22,7 @@
      var getData = function() {
          var dataUrl = 'https://spreadsheets.google.com/feeds/list/1j17ANt3kBna-uU4CiQ0Tbcx7esPVzJ_YAy5x1C9pazY/1/public/basic?alt=json';
          var colUrl = 'data/col.json';
-         var statesUrl = 'data/us-states.json';
+         var usUrl = 'data/us-states.json';
          getUrlData(dataUrl).done(function(data) {
              var input = data.feed.entry;
              for (var i in input) {
@@ -43,12 +48,12 @@
          getUrlData(colUrl).done(function(data) {
              col = data;
          });
-         getUrlData(statesUrl).done(function(data) {
-             statesJson = data;
+         getUrlData(usUrl).done(function(data) {
+             usJson = data;
          });
 
          var loading = setInterval(function() {
-             if (col.length > 0 && json.length > 0 && statesJson.length > 0) {
+             if (col.length > 0 && json.length > 0 && usJson.length > 0) {
                  clearInterval(loading);
                  return;
              }
@@ -57,175 +62,262 @@
 
      getData();
 
-     /*for (var m in columns) {
-         $('thead>tr').append('<th>' + columns[m] + '</th>');
-     }
-     for (var k in json) {
-         $('tbody').append('<tr class="' + k + '"></tr>');
-         for (var l in json[k]) {
-             $('tr.' + k).append('<td>' + json[k][l] + '</td>');
-         }
-     }*/
-
-     var usChart = dc.geoChoroplethChart("#us-chart");
-
-     var states_data = crossfilter(col);
-
-     var states = states_data.dimension(function(d) {
-         return d.code;
-     });
-
-     var stateIndex = states.group().reduceSum(function(d) {
-         return d.index;
-     });
-
-
-
-     usChart.width(990)
-         .height(500)
-         .dimension(states)
-         .group(stateIndex)
-         .colors(d3.scale.quantize().domain([d3.min(col, function(d) {
-             return d.index;
-         }), d3.max(col, function(d) {
-             return d.index;
-         })]).range(['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b']))
-         .colorCalculator(function(d) {
-             return d ? usChart.colors()(d) : '#ccc';
-         })
-         .overlayGeoJson(statesJson.features, "state", function(d) {
-             return d.properties.name;
-         })
-         .title(function(d) {
-             return "State: " + d.key + "\nCoL Index: " + d.value;
+     /*var arrayDiff = function(a1, a2) {
+         return a1.filter(function(i) {
+             return a2.indexOf(i) < 0;
          });
-     //console.log(json);
-     var salartyChart = dc.seriesChart("#industry-chart");
-     var cdo_data = crossfilter(json);
-     var cdo_state = cdo_data.dimension(function(d) {
-         return [d.stateLoc, d.salary, d.jobcategory];
-     });
-     var cdo_salary = cdo_state.group();
-     var subChart = function(c) {
-         return dc.scatterPlot(c)
-             .symbolSize(8)
-             .highlightedSize(10);
+     };*/
+
+     var updateVis = function() {
+
+         if (selected.states.length === statesW2E.length) {
+
+             unselectedStates = [];
+             $('.state.unselected').attr('class', function(i, val) {
+                 return val.replace('unselected', 'selected');
+             });
+
+         } else {
+
+             $('.state.selected').attr('class', function(i, val) {
+                 return val.replace('selected', 'unselected');
+             });
+
+             for (var s in selected.states) {
+
+                 $('.state.unselected.' + selected.states[s]).attr('class', function(i, val) {
+                     return val.replace('unselected', 'selected');
+                 });
+             }
+         }
+
+     };
+
+     var drawCoLMap = function() {
+         var mapRatio = 1.6, // w/h
+             mapWidth, mapHeight;
+         if (window.outerWidth > window.outerHeight) {
+             mapWidth = (window.outerHeight * mapRatio) / 2.1;
+             mapHeight = window.outerHeight / 2.1;
+         } else {
+             mapWidth = window.outerWidth / 2.1;
+             mapHeight = window.outerWidth / (2.1 * mapRatio);
+         }
+
+         var idx = col.map(function(d) {
+             return d.index;
+         });
+
+         var quantize = d3.scale.quantize()
+             .domain([d3.min(idx), d3.max(idx)])
+             .range(colorbrewer['Blues'][9]);
+
+         var scaleRatio = 4 / 3; //scale/width
+
+         var projection = d3.geo.albersUsa()
+             .scale(scaleRatio * mapWidth)
+             .translate([mapWidth / 2, mapHeight / 2]);
+
+         var path = d3.geo.path()
+             .projection(projection);
+
+         var svg = d3.select("#location").append("svg")
+             .attr("width", mapWidth)
+             .attr("height", mapHeight);
+
+         var stateIdx = {};
+         col.map(function(d) {
+             stateIdx[d.code] = JSON.parse(JSON.stringify(d));
+         });
+
+         var states = svg.append("g")
+             .attr("id", "states");
+         states.selectAll("path")
+             .data(usJson.features)
+             .enter().append("path")
+
+         .attr("d", path)
+             .attr("fill", function(d) {
+                 return quantize(stateIdx[d.properties.name].index);
+             })
+             .attr("class", function(d) {
+                 return d.properties.name + ' state selected';
+             })
+             .on("click", handleMapStateSelect)
+             .append("svg:title")
+             .text(function(d) {
+                 return stateIdx[d.properties.name].state;
+             });
+     };
+     var drawSalaryPlot = function() {
+
+         var margin = {
+                 top: 20,
+                 right: 0,
+                 bottom: 30,
+                 left: 80
+             },
+             width = window.outerWidth / 1.1 - margin.left - margin.right,
+             height = window.outerHeight / 2.25 - margin.top - margin.bottom,
+             legendWidth = 150;
+
+         /* 
+          * value accessor - returns the value to encode for a given data object.
+          * scale - maps value to a visual display encoding, such as a pixel position.
+          * map function - maps from data value to display value
+          * axis - sets up axis
+          */
+
+         // setup x 
+         var xValue = function(d) {
+                 return d.state;
+             }, // data -> value
+             xScale = d3.scale.ordinal().rangeRoundBands([0, width - legendWidth],1), // value -> display
+
+             xMap = function(d) {
+                 return xScale(xValue(d));
+             }, // data -> display
+             xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+         //xAxis.tickValues();
+
+         // setup y
+         var yValue = function(d) {
+                 return d.salary;
+             }, // data -> value
+             salaryMap = json.map(function(d) {
+                 return d.salary;
+             }),
+             yScale = d3.scale.linear().range([height, 0]), // value -> display
+             yMap = function(d) {
+                 return yScale(yValue(d));
+             }, // data -> display
+             yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+         // setup fill color
+         var cValue = function(d) {
+             return d.jobcategory;
+         };
+         var color = d3.scale.category20();
+
+         // add the graph canvas to the body of the webpage
+
+         var svg = d3.select("#salary").append("svg")
+             .attr("width", width + margin.left + margin.right)
+             .attr("height", height + margin.top + margin.bottom)
+             .append("g")
+             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+         // add the tooltip area to the webpage
+         var tooltip = d3.select("body").append("div")
+             .attr("class", "tooltip")
+             .style("opacity", 0);
+
+         // don't want dots overlapping axis, so add in buffer to data domain
+         xScale.domain(statesW2E);
+         yScale.domain([0, parseInt(d3.max(json, yValue)) + 100000]);
+
+         // x-axis
+         svg.append("g")
+             .attr("class", "x axis")
+             .attr("transform", "translate(0," + height + ")")
+             .call(xAxis)
+             .append("text")
+             .attr("class", "label")
+             .attr("x", width - legendWidth)
+             .attr("y", -6)
+             .style("text-anchor", "end")
+             .text("States");
+         svg.select(".x.axis")
+             .selectAll("text")
+             //.attr("transform", " translate(0,15) rotate(-65)") // To rotate the texts on x axis. Translate y position a little bit to prevent overlapping on axis line.
+         .style("font-size", "9px"); //To change the font size of texts
+
+         // y-axis
+         svg.append("g")
+             .attr("class", "y axis")
+             .call(yAxis)
+             .append("text")
+             .attr("class", "label")
+             .attr("transform", "rotate(-90)")
+             .attr("y", 6)
+             .attr("dy", ".71em")
+             .style("text-anchor", "end")
+             .text("Salary");
+
+         // draw dots
+         svg.selectAll(".dot")
+             .data(json)
+             .enter().append("circle")
+             .attr("class", "dot")
+             .attr("r", 3.5)
+             .attr("cx", xMap)
+             .attr("cy", yMap)
+             .style("fill", function(d) {
+                 return color(cValue(d));
+             })
+             .on("mouseover", function(d) {
+                 tooltip.transition()
+                     .duration(200)
+                     .style("opacity", .9);
+                 tooltip.html(d.jobtitle + "<br/> (" + xValue(d) + ", $" + yValue(d) + ")")
+                     .style("left", (d3.event.pageX + 5) + "px")
+                     .style("top", (d3.event.pageY - 28) + "px");
+             })
+             .on("mouseout", function(d) {
+                 tooltip.transition()
+                     .duration(500)
+                     .style("opacity", 0);
+             });
+
+         // draw legend
+         var legend = svg.selectAll(".legend")
+             .data(color.domain())
+             .enter().append("g")
+             .attr("class", "legend")
+             .attr("transform", function(d, i) {
+                 return "translate(0," + i * 20 + ")";
+             });
+
+         // draw legend colored rectangles
+         legend.append("rect")
+             .attr("x", width - legendWidth + 10)
+             .attr("width", 18)
+             .attr("height", 18)
+             .style("fill", color);
+
+         // draw legend text
+         legend.append("text")
+             .attr("x", width - legendWidth + 32)
+             .attr("y", 9)
+             .attr("dy", ".35em")
+             .style("text-anchor", "start")
+             .attr("font-size", "11px")
+             .text(function(d) {
+                 return d;
+             });
+
      };
 
 
-     /* var cdo_salary = cdo_id.group().reduce(
-         function(p, v) {
-             p.state = v.stateLoc;
-             p.salary = v.salary;
-             return p;
-         },
-         function(p, v) {
-             p.state = v.state;
-             p.salary = v.salary;
-             return p;
-         },
-         function(p, v) {
-             p.state = '';
-             p.salary = 0;
-             return p;
-         });
-*/
-     /*salartyChart.width(1280)
-         .height(400)
-         .margins({
-             top: 10,
-             right: 50,
-             bottom: 30,
-             left: 60
-         })
-         .dimension(cdo_state)
-         .group(cdo_salary)
-         .y(d3.scale.linear().domain([0, 170000]))
-         .x(d3.scale.linear().domain([0, 53]))
-         .brushOn(false)
-         .symbolSize(5)
-         .clipPadding(10)
-         .yAxisLabel('Salary (in USD)');
-     console.log(salartyChart.data());*/
+     var handleMapStateSelect = function(e) {
+         if (selected.states.length === statesW2E.length) {
+             selected.states = [e.properties.name];
+         } else {
 
-     salartyChart
-         .width(1140)
-         .height(window.outerHeight/2.2)
-         .margins({
-             top: 10,
-             right: 50,
-             bottom: 30,
-             left: 60
-         })
-         .chart(subChart)
-         .y(d3.scale.linear().domain([0, 170000]))
-         .x(d3.scale.linear().domain([0, 53]))
-         .brushOn(true)
-         .yAxisLabel('Salary (in USD)')
-         .xAxisLabel('States')
-         .clipPadding(10)
-         //.elasticY(true)
-         .dimension(cdo_state)
-         .group(cdo_salary)
-         .mouseZoomable(false)
-         .seriesAccessor(function(d) {
-             return d.key[2];
-         })
-         .keyAccessor(function(d) {
-             return d.key[0];
-         })
-         .valueAccessor(function(d) {
-             return d.key[1];
-         });
-         //.legend(dc.legend().x(350).y(350).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
-     /*industryChart.yAxis().tickFormat(function(s) {
-         return s + " deals";
-     });*/
-     /*industryChart.xAxis().tickFormat(function(s) {
-         return s + "M";
-     });*/
+             if (selected.states.indexOf(e.properties.name) > -1) {
+                 selected.states.splice(selected.states.indexOf(e.properties.name), 1);
+                 if (selected.states.length === 0) {
+                     selected.states = statesW2E;
+                 }
+             } else {
+                 selected.states.push(e.properties.name);
+             }
+         }
 
-     /* roundChart.width(990)
-          .height(200)
-          .margins({
-              top: 10,
-              right: 50,
-              bottom: 30,
-              left: 60
-          })
-          .dimension(rounds)
-          .group(statsByRounds)
-          .colors(d3.scale.category10())
-          .keyAccessor(function(p) {
-              return p.value.amountRaised;
-          })
-          .valueAccessor(function(p) {
-              return p.value.deals;
-          })
-          .radiusValueAccessor(function(p) {
-              return p.value.amountRaised;
-          })
-          .x(d3.scale.linear().domain([0, 5000]))
-          .r(d3.scale.linear().domain([0, 9000]))
-          .minRadiusWithLabel(15)
-          .elasticY(true)
-          .yAxisPadding(150)
-          .elasticX(true)
-          .xAxisPadding(300)
-          .maxBubbleRelativeSize(0.07)
-          .renderHorizontalGridLines(true)
-          .renderVerticalGridLines(true)
-          .renderLabel(true)
-          .renderTitle(true)
-          .title(function(p) {
-              return p.key + "\n" + "Amount Raised: " + numberFormat(p.value.amountRaised) + "M\n" + "Number of Deals: " + numberFormat(p.value.deals);
-          });
-      roundChart.yAxis().tickFormat(function(s) {
-          return s + " deals";
-      });
-      roundChart.xAxis().tickFormat(function(s) {
-          return s + "M";
-      });*/
+         updateVis();
+     };
 
-     dc.renderAll();
+     drawCoLMap();
+     drawSalaryPlot();
+
  });
