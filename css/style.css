@@ -42,73 +42,114 @@
 	padding-right:0;
 }
 
-.circlenode {
-	cursor: pointer;
-}
+  .circlenode {
+    cursor: pointer;
+  }
 
-.circlenode.selected{
-	stroke: #fff;
-	fill:red;
-	stroke-width:1px;
-}
+  .circlenode.selected{
+    stroke: #fff;
+    fill:green;
+    stroke-width:1px;
+  }
 
-.circlenode:hover {
-	stroke: #000;
-	stroke-width: 1.5px;
-}
+  .circlenode.first{
+    stroke: #fff;
+    fill:red;
+    opacity: .5;
+    stroke-width:1px;
+  }
 
-.circlenode--leaf {
-	fill: white;
-}
+  .circlenode.second{
+    stroke: #fff;
+    fill:red;
+    opacity:0.7;
+    stroke-width:1px;
+  }
 
-.label {
-	font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-	text-anchor: middle;
-	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-}
+  .circlenode.third{
+    stroke: #fff;
+    fill:red;
+    opacity:1;
+    stroke-width:1px;
+  }
 
-.label,
-.circlenode--root{
-	pointer-events: none;
-}
+  .circlenode:hover {
+    stroke: #000;
+    stroke-width: 1.5px;
+  }
+
+  .circlenode--leaf {
+    fill: white;
+  }
+
+  .label {
+    font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: middle;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  }
+
+  .label,
+  .circlenode--root{
+    pointer-events: none;
+  }
 
 
-body{
-	position:relative;
-}
+  body{
+    position:relative;
+  }
 
-.tool{
-	line-height: 1;
-	padding: 12px;
-	background: rgba(0, 0, 0, 0.8);
-	color: #fff;
-	border-radius: 2px;
-	position: absolute;
-}
+  .tool{
+    line-height: 1;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    position: absolute;
+  }
 
-#treemap {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	margin: auto;
-	position: relative;
-	width: 960px;
-}
+  #treemap {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: auto;
+    position: relative;
+    width: 960px;
+  }
 
-form {
-	position: absolute;
-	right: 10px;
-	top: 10px;
-}
+  form {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
 
-.node {
-	border: solid 1px white;
-	font: 10px sans-serif;
-	line-height: 12px;
-	overflow: hidden;
-	position: absolute;
-	text-indent: 2px;
-}
+  .node {
+    border: solid 1px white;
+    font: 10px sans-serif;
+    line-height: 12px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 2px;
+  }
 
-.node.selected{
-	border:2px solid black;
-	background-color:#fff;
-}
+  .node.first {
+    border:1px solid black;
+    background:rgba(255, 255, 0, 0.3);
+  }
+
+  .node.second{
+    border:1px solid black;
+    background:rgba(255, 255, 0, 0.5);
+  }
+
+  .node.third {
+    border:1px solid black;
+    background:rgba(255, 255, 0, 0.7);
+  }
+
+  .node.fourth {
+    border:1px solid black;
+    background:rgba(255, 255, 0, 0.9);
+  }
+
+  .node.selected{
+    border:2px solid black;
+    background-color:#fff;
+  }

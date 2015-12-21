@@ -67,14 +67,53 @@ treemap = {
         var node = this;
         var jobcategory = d.row["jobcategory"];
         var jobtitle = d.row["jobtitle"];
-        d3.select(node).attr("class", "node selected");
-        treeFilter.push({"row": d.row, "selection":jobtitle, "type":"jobtitle", "parent":jobcategory, "parenttype":"jobcategory"});
-        circlePacking.filterGraph();
+        var currentClass = d3.select(node).attr("class");
+        var filterItem = {"row": d.row, "selection":jobtitle, "type":"jobtitle", "parent":jobcategory, "parenttype":"jobcategory"};
+        if (currentClass.indexOf("selected")>-1){
+          currentClass = currentClass.replace("selected","");
+          d3.select(node).attr("class", currentClass.trim());
+          //treeFilter.push(filterItem);
+          circlePacking.removeFilter(filterItem);
+        }else{
+          d3.select(node).attr("class", currentClass.trim() + " selected");
+          //treeFilter.push(filterItem);
+          circlePacking.addFilter(filterItem);
+        }
       })
        .call(this.position)
        .style("background", function(d) { return d.children ? color(d.name) : null; })
        .text(function(d) { return d.children ? null : d.name; });
-     }
+
+       this.graphObjects.rectangles = node;
+
+       return;
+     },
+
+     addFilter:function(data){
+      var selection = this.graphObjects.rectangles.filter(function(d){
+        if (typeof d.row!='undefined'){
+          if (data.row.companyname === d.row.companyname){
+            d.filterCount++;
+            return d;
+          }
+        }
+      }).attr("class", function(d){
+        return changeClasses(d, this);
+      });
+    },
+
+    removeFilter:function(data){
+      var selection = this.graphObjects.rectangles.filter(function(d){
+        if (typeof d.row!='undefined'){
+          if (data.row.companyname === d.row.companyname){
+            d.filterCount--;
+            return d;
+          }
+        }
+      }).attr("class", function(d){
+        return changeClasses(d, this);
+      });
+    }
   };
 
 
