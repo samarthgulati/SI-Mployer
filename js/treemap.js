@@ -14,7 +14,7 @@ treemap = {
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-    var color = d3.scale.category20c();
+    //var color = d3.scale.category20();
 
     var treemap = d3.layout.treemap()
     .size([width, height])
@@ -81,7 +81,7 @@ treemap = {
         }
       })
        .call(this.position)
-       .style("background", function(d) { return d.children ? color(d.name) : null; })
+       .style("background", function(d) { return d.children ? colorJobCategory(d.name) : null; })
        .text(function(d) { return d.children ? null : d.name; });
 
        this.graphObjects.rectangles = node;
@@ -91,7 +91,7 @@ treemap = {
 
      addFilter:function(data){
       var selection = this.graphObjects.rectangles.filter(function(d){
-        if (typeof d.row!='undefined' && d.row.length!=0){
+        if (typeof d.row!='undefined' && d.row.length!=0 && d.children==null){
           var found = false;
           switch(data.type){
             case "companyname":
@@ -115,7 +115,7 @@ treemap = {
 
     removeFilter:function(data){
       var selection = this.graphObjects.rectangles.filter(function(d){
-        if (typeof d.row!='undefined' && d.row.length!=0){
+        if (typeof d.row!='undefined' && d.row.length!=0 && d.children==null){
           var found = false;
           switch(data.type){
             case "companyname":

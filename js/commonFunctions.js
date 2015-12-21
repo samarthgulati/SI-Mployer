@@ -1,3 +1,5 @@
+cJobCategory = d3.scale.category20();
+
 function changeClasses(d, node){
 	var filterCount = d.filterCount;
             var currentClass= d3.select(node).attr("class");
@@ -38,4 +40,8 @@ function changeClasses(d, node){
                 break;
             }
             return newClass.trim();
+}
+
+function colorJobCategory(name){
+    return cJobCategory(name);
 }

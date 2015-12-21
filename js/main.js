@@ -262,11 +262,6 @@ $(document).ready(function() {
             }, // data -> display
             yAxis = d3.svg.axis().scale(yScale).orient("left");
 
-        // setup fill color
-        var cValue = function(d) {
-            return d.jobcategory;
-        };
-        var color = d3.scale.category20();
 
         // add the graph canvas to the body of the webpage
 
@@ -322,7 +317,7 @@ $(document).ready(function() {
             .attr("cx", xMap)
             .attr("cy", yMap)
             .style("fill", function(d) {
-                return color(cValue(d));
+                return colorJobCategory(d.jobcategory);
             })
             .on("mouseover", function(d) {
                 tooltip.transition()
@@ -340,7 +335,7 @@ $(document).ready(function() {
 
         // draw legend
         var legend = svg.selectAll(".legend")
-            .data(color.domain())
+            .data(cJobCategory.domain())
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function(d, i) {
@@ -352,7 +347,7 @@ $(document).ready(function() {
             .attr("x", width - legendWidth + 10)
             .attr("width", 18)
             .attr("height", 18)
-            .style("fill", color);
+            .style("fill", cJobCategory);
 
         // draw legend text
         legend.append("text")
