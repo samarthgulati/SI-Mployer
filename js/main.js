@@ -12,6 +12,7 @@ function position() {
   .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
 }
 
+
 function incrementCounter(jsonList, itemToFind, row){
   var itemFound = false;
   $.each(jsonList, function(key, value){
