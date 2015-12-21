@@ -65,8 +65,8 @@ treemap = {
       })
        .on('click', function(d){
         var node = this;
-        var jobcategory = d.row["jobcategory"];
-        var jobtitle = d.row["jobtitle"];
+        var jobcategory = d.parent.name;
+        var jobtitle = d.name;
         var currentClass = d3.select(node).attr("class");
         var filterItem = {"row": d.row, "selection":jobtitle, "type":"jobtitle", "parent":jobcategory, "parenttype":"jobcategory"};
         if (currentClass.indexOf("selected")>-1){
@@ -91,8 +91,19 @@ treemap = {
 
      addFilter:function(data){
       var selection = this.graphObjects.rectangles.filter(function(d){
-        if (typeof d.row!='undefined'){
-          if (data.row.companyname === d.row.companyname){
+        if (typeof d.row!='undefined' && d.row.length!=0){
+          var found = false;
+          switch(data.type){
+            case "companyname":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+          }
+
+          if (found){
             d.filterCount++;
             return d;
           }
@@ -104,8 +115,19 @@ treemap = {
 
     removeFilter:function(data){
       var selection = this.graphObjects.rectangles.filter(function(d){
-        if (typeof d.row!='undefined'){
-          if (data.row.companyname === d.row.companyname){
+        if (typeof d.row!='undefined' && d.row.length!=0){
+          var found = false;
+          switch(data.type){
+            case "companyname":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+          }
+
+          if (found){
             d.filterCount--;
             return d;
           }

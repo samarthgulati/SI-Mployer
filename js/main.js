@@ -32,12 +32,13 @@ function incrementCounter(jsonList, itemToFind, row){
   $.each(jsonList, function(key, value){
     if (typeof value.name != undefined && value.name == itemToFind){
       value.count++;
+      value.row.push(row)
       itemFound = true;
     }
   });
 
   if (!itemFound){
-    jsonList.push({"name": itemToFind, "count":1, "row": row, "selected": false, "filterCount":0});
+    jsonList.push({"name": itemToFind, "count":1, "row": [row], "selected": false, "filterCount":0});
   }
 }
 
@@ -51,7 +52,7 @@ function addIfNotPresent(jsonList, itemToFind, row) {
         }
     });
   if (!itemFound){
-    var length = jsonList.push({"name": itemToFind, "children":[], "row": row, "selected": false, "filterCount":0 });
+    var length = jsonList.push({"name": itemToFind, "children":[], "row": [row], "selected": false, "filterCount":0 });
     location = length-1;
   }
 

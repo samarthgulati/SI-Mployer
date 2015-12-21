@@ -35,8 +35,8 @@ circlePacking = {
         .enter().append("g")
         .on("click", function(d) { 
             var node = this.childNodes[0];
-            var companyname = d.row["companyname"];
-            var companyfunding = d.row["companyfunding"];
+            var companyname = d.name;
+            var companyfunding = d.parent.name;
             var currentClass = d3.select(node).attr("class");
             var filterItem = {"row": d.row, "selection":companyname, "type":"companyname", "parent":companyfunding, "parenttype":"companyfunding"};
             if (currentClass.indexOf("selected")>-1){
@@ -140,11 +140,22 @@ return;
 
 addFilter:function(data){
     var selection = this.graphObjects.circles.filter(function(d){
-        if (typeof d.row!='undefined'){
-            if (data.row.jobtitle === d.row.jobtitle){
-                d.filterCount++;
-                return d;
+        if (typeof d.row!='undefined' && d.row.length!=0){
+          var found = false;
+          switch(data.type){
+            case "jobtitle":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
             }
+            break;
+          }
+
+          if (found){
+            d.filterCount++;
+            return d;
+          }
         }
     }).attr("class", function(d){
         return changeClasses(d, this);
@@ -153,12 +164,22 @@ addFilter:function(data){
 },
 removeFilter:function(data){
     var selection = this.graphObjects.circles.filter(function(d){
-        if (typeof d.row!='undefined'){
-            if (data.row.jobtitle === d.row.jobtitle){
-                console.log(d.row.jobtitle);
-                d.filterCount--;
-                return d;
+        if (typeof d.row!='undefined' && d.row.length!=0){
+          var found = false;
+          switch(data.type){
+            case "jobtitle":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
             }
+            break;
+          }
+
+          if (found){
+            d.filterCount--;
+            return d;
+          }
         }
     }).attr("class", function(d){
         return changeClasses(d, this);
