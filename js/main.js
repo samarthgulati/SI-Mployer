@@ -27,6 +27,7 @@ function position() {
 }
 
 
+<<<<<<< Updated upstream
 function incrementCounter(jsonList, itemToFind, row){
   var itemFound = false;
   $.each(jsonList, function(key, value){
@@ -40,6 +41,26 @@ function incrementCounter(jsonList, itemToFind, row){
   if (!itemFound){
     jsonList.push({"name": itemToFind, "count":1, "row": [row], "selected": false, "filterCount":0});
   }
+=======
+function incrementCounter(jsonList, itemToFind, row) {
+    var itemFound = false;
+    $.each(jsonList, function(key, value) {
+        if (typeof value.name != undefined && value.name == itemToFind) {
+            value.count++;
+            itemFound = true;
+        }
+    });
+
+    if (!itemFound) {
+        jsonList.push({
+            "name": itemToFind,
+            "count": 1,
+            "row": row,
+            "selected": false,
+            "filterCount": 0
+        });
+    }
+>>>>>>> Stashed changes
 }
 
 function addIfNotPresent(jsonList, itemToFind, row) {
@@ -51,10 +72,23 @@ function addIfNotPresent(jsonList, itemToFind, row) {
             location = key;
         }
     });
+<<<<<<< Updated upstream
   if (!itemFound){
     var length = jsonList.push({"name": itemToFind, "children":[], "row": [row], "selected": false, "filterCount":0 });
     location = length-1;
   }
+=======
+    if (!itemFound) {
+        var length = jsonList.push({
+            "name": itemToFind,
+            "children": [],
+            "row": row,
+            "selected": false,
+            "filterCount": 0
+        });
+        location = length - 1;
+    }
+>>>>>>> Stashed changes
 
     return location;
 }
@@ -162,62 +196,141 @@ $(document).ready(function() {
 
     };
 
-    var drawCoLMap = function() {
-        var mapRatio = 1.6, // w/h
-            mapWidth, mapHeight;
-        if (window.outerWidth > window.outerHeight) {
-            mapWidth = (window.outerHeight * mapRatio) / 2.1;
-            mapHeight = window.outerHeight / 2.1;
-        } else {
-            mapWidth = window.outerWidth / 2.1;
-            mapHeight = window.outerWidth / (2.1 * mapRatio);
+    var CoLMap = {
+
+        createGraph: function() {
+            var mapRatio = 1.6, // w/h
+                mapWidth, mapHeight;
+            if (window.outerWidth > window.outerHeight) {
+                mapWidth = (window.outerHeight * mapRatio) / 2.1;
+                mapHeight = window.outerHeight / 2.1;
+            } else {
+                mapWidth = window.outerWidth / 2.1;
+                mapHeight = window.outerWidth / (2.1 * mapRatio);
+            }
+
+            var idx = col.map(function(d) {
+                return d.index;
+            });
+
+            var quantize = d3.scale.quantize()
+                .domain([d3.min(idx), d3.max(idx)])
+                .range(colorbrewer['Blues'][9]);
+
+            var scaleRatio = 4 / 3; //scale/width
+
+            var projection = d3.geo.albersUsa()
+                .scale(scaleRatio * mapWidth)
+                .translate([mapWidth / 2, mapHeight / 2]);
+
+            var path = d3.geo.path()
+                .projection(projection);
+
+            var svg = d3.select("#location").append("svg")
+                .attr("width", mapWidth)
+                .attr("height", mapHeight);
+
+            var stateIdx = {};
+            col.map(function(d) {
+                stateIdx[d.code] = JSON.parse(JSON.stringify(d));
+            });
+
+            var states = svg.append("g")
+                .attr("id", "states");
+            states.selectAll("path")
+                .data(usJson.features)
+                .enter().append("path")
+
+            .attr("d", path)
+                .attr("fill", function(d) {
+                    return quantize(stateIdx[d.properties.name].index);
+                })
+                .attr("class", function(d) {
+                    return d.properties.name + ' state selected';
+                })
+                .attr("filterCount", 0)
+                .on("click", this.handleSelect)
+                .append("svg:title")
+                .text(function(d) {
+                    return stateIdx[d.properties.name].state;
+                });
+        },
+        handleSelect: function(e) {
+            var data = {};
+            data.selection = e.properties.name;
+            data.type = 'state';
+
+            if (selected.states.length === statesW2E.length) {
+                selected.states = [e.properties.name];
+                //treemap.addFilter(data);
+                //circlePacking.addFilter(data);
+                CoLMap.addFilter(data);
+            } else {
+                if (selected.states.indexOf(e.properties.name) > -1) {
+                    selected.states.splice(selected.states.indexOf(e.properties.name), 1);
+                    //treemap.removeFilter(data);
+                    //circlePacking.removeFilter(data);
+                    CoLMap.removeFilter(data);
+                    if (selected.states.length === 0) {
+                        selected.states = statesW2E;
+                    }
+                } else {
+                    selected.states.push(e.properties.name);
+                    //treemap.addFilter(data);
+                    //circlePacking.addFilter(data);
+                    CoLMap.addFilter(data);
+                }
+            }
+
+            updateVis();
+        },
+        getStates: function(data) {
+            var selectedStates = [];
+            // loop through all rows
+            json.forEach(function(d) {
+                // if the selection matches with the type in current row
+                if (d[data.type] === data.selection) {
+                    // push the selected State to the array if not already present
+                    if (selectedStates.indexOf(d.state) === -1) {
+                        selectedStates.push(d.state);
+                    }
+                }
+            });
+            return selectedStates;
+        },
+        addFilter: function(data) {
+            var selectedStates = this.getStates(data);
+            // for all the states in the selected state increment their filterCount attr
+            for (var i in selectedStates) {
+                var filterCount = parseInt($('.state.' + selectedStates[i])[0].getAttribute('filterCount')) + 1;
+                $('.state.' + selectedStates[i])[0].setAttribute('filterCount', filterCount);
+                console.log($('.state.' + selectedStates[i]));
+            }
+            $('.state').attr('class', function(i, val) {
+                if (val.split(' ').indexOf(d.state) > -1) {
+                    console.log(this.getAttribute('filtercount'));
+                }
+            });
+        },
+        removeFilter: function(data) {
+            var selectedStates = this.getStates(data);
+            // for all the states in the selected state increment their filterCount attr
+            for (var i in selectedStates) {
+                var filterCount = parseInt($('.state.' + selectedStates[i])[0].getAttribute('filterCount')) - 1;
+                $('.state.' + selectedStates[i])[0].setAttribute('filterCount', filterCount);
+                console.log($('.state.' + selectedStates[i]));
+            }
+            $('.state').attr('class', function(i, val) {
+                if (val.split(' ').indexOf(d.state) > -1) {
+                    console.log(this.getAttribute('filtercount'));
+                }
+            });
+
         }
 
-        var idx = col.map(function(d) {
-            return d.index;
-        });
-
-        var quantize = d3.scale.quantize()
-            .domain([d3.min(idx), d3.max(idx)])
-            .range(colorbrewer['Blues'][9]);
-
-        var scaleRatio = 4 / 3; //scale/width
-
-        var projection = d3.geo.albersUsa()
-            .scale(scaleRatio * mapWidth)
-            .translate([mapWidth / 2, mapHeight / 2]);
-
-        var path = d3.geo.path()
-            .projection(projection);
-
-        var svg = d3.select("#location").append("svg")
-            .attr("width", mapWidth)
-            .attr("height", mapHeight);
-
-        var stateIdx = {};
-        col.map(function(d) {
-            stateIdx[d.code] = JSON.parse(JSON.stringify(d));
-        });
-
-        var states = svg.append("g")
-            .attr("id", "states");
-        states.selectAll("path")
-            .data(usJson.features)
-            .enter().append("path")
-
-        .attr("d", path)
-            .attr("fill", function(d) {
-                return quantize(stateIdx[d.properties.name].index);
-            })
-            .attr("class", function(d) {
-                return d.properties.name + ' state selected';
-            })
-            .on("click", handleMapStateSelect)
-            .append("svg:title")
-            .text(function(d) {
-                return stateIdx[d.properties.name].state;
-            });
     };
+
+    
     var drawSalaryPlot = function() {
 
         var margin = {
@@ -363,26 +476,9 @@ $(document).ready(function() {
     };
 
 
-    var handleMapStateSelect = function(e) {
-        if (selected.states.length === statesW2E.length) {
-            selected.states = [e.properties.name];
-        } else {
-
-            if (selected.states.indexOf(e.properties.name) > -1) {
-                selected.states.splice(selected.states.indexOf(e.properties.name), 1);
-                if (selected.states.length === 0) {
-                    selected.states = statesW2E;
-                }
-            } else {
-                selected.states.push(e.properties.name);
-            }
-        }
-
-        updateVis();
-    };
-
-    drawCoLMap();
+    //drawCoLMap();
     drawSalaryPlot();
+    CoLMap.createGraph();
     circlePacking.createGraph(460);
     treemap.createGraph();
 

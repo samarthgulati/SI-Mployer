@@ -109,6 +109,7 @@ treemap = {
           }
         }
       }).attr("class", function(d){
+        console.log(d, this);
         return changeClasses(d, this);
       });
     },
