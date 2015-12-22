@@ -52,7 +52,7 @@ body{
 }
 
 .filtered .node{
-  opacity: 0.3;
+  opacity: 0.8;
 }
 
 .filtered .dot{
@@ -80,6 +80,7 @@ STATE MAP with
 
 .filtered .state.selected {
   opacity:1;
+    fill:green;
   stroke:#000;
 }
 
@@ -87,8 +88,14 @@ STATE MAP with
 .state.first{
   stroke: #fff;
   fill:red;
-  opacity: .5;
+  opacity: 0.5;
   stroke-width:1px;
+}
+
+.filtered .state.selected.first{
+  opacity:0.5;
+    fill:green;
+  stroke:#000;
 }
 
 /* 2 out of 4 */
@@ -99,14 +106,39 @@ STATE MAP with
   stroke-width:1px;
 }
 
+.filtered .state.selected.second{
+  opacity:0.7;
+    fill:green;
+  stroke:#000;
+}
+
 /* 3 out of 4 */
 .state.third{
+  stroke: #fff;
+  fill:red;
+  opacity:0.8;
+  stroke-width:1px;
+}
+
+.filtered .state.selected.third{
+  opacity:0.8;
+  fill:green;
+  stroke:#000;
+}
+
+/* 4 out of 4 */
+.state.fourth{
   stroke: #fff;
   fill:red;
   opacity:1;
   stroke-width:1px;
 }
 
+.filtered .state.selected.fourth{
+  opacity:0.8;
+  fill:green;
+  stroke:#000;
+}
 
 .dot, .legend {
   cursor: pointer;
@@ -140,7 +172,7 @@ CLUSTER MAP
   cursor: pointer;
 }
 
-.circlenode.selected{
+.filtered .circlenode.selected{
   stroke: #fff;
   fill:green;
   stroke-width:1px;
@@ -225,36 +257,46 @@ form {
   line-height: 12px;
   overflow: hidden;
   position: absolute;
+  color:black;
 }
 
 /* 1 out of 4 */
 .node.first {
+  color:white;
   border: solid 1px gray;
-  background:rgba(255, 255, 0, 0.3);
+  background:rgba(0, 0, 0, 0.3);
 }
 
 /* 2 out of 4 */
 .node.second{
+  color:white;
   border: solid 1px gray;
-  background:rgba(255, 255, 0, 0.5);
+  background:rgba(0, 0, 0, 0.6);
 }
 
 /* 3 out of 4 */
 .node.third {
+  color:white;
   border: solid 1px gray;
-  background:rgba(255, 255, 0, 0.7);
+  opacity:0.9;
+  background:rgba(0, 0, 0, 0.9);
 }
 
 /* 4 out of 4 */
 .node.fourth {
+  color:white;
   border: solid 1px gray;
-  background:rgba(255, 255, 0, 0.9);
+  opacity:1;
+  background:rgba(0, 0, 0, 1);
 }
 
 /* selected by click */
 .node.selected{
   box-shadow : 3px 0px 20px #fff;
-  /*background-color:#fff;*/
+  color:black;
+  background-color:#008000;
+  opacity:0.8;
+  border:1px solid black;
 }
 
 .node:hover {
