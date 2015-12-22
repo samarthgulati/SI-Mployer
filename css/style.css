@@ -4,6 +4,41 @@
 /* .third = 0.9 */
 /* .fourth = 1.0 */
 
+body{
+  position:relative;
+}
+
+.tab-pane {
+  margin: auto 0;
+}
+
+.nav-tabs-custom {
+  border-bottom: 1px solid #4292C6;
+}
+
+.nav-tabs-custom > li > a {
+  color: #555;
+  cursor: default;
+  border-right: none !important;
+  border-left: none !important;
+  border-top:none !important;
+  margin-top: 16px;
+}
+
+.nav-tabs-custom > li.active {
+  border-bottom: #4292C6 solid 4px !important;
+}
+
+.nav-tabs-custom > li.active > a:hover {
+  border-bottom: rgba(66,146,198,.1) solid 1px;
+  margin-bottom:none;
+}
+
+.nav-tabs-custom > li > a:hover {
+  background: rgba(66,146,198,.2) !important;
+  border-bottom: rgba(66,146,198,.1) solid 4px;
+}
+
 .tab-pane {
   margin: auto 0;
 }
@@ -30,17 +65,22 @@ STATE MAP with
 -------------------------------------------------------*/
 /* State map*/
 .state {
-  /*stroke: #08306b;
-  stroke-width: 1;*/
+  stroke: #ff5722;
+  stroke-width: 0.5px;
   cursor: pointer;
 }
 
 .state:hover {
-  stroke-width: 2;
+  opacity: 0.9;
 }
 
 .state.unselected {
   /*fill: #efefef;*/
+}
+
+.filtered .state.selected {
+  opacity:1;
+  stroke:#000;
 }
 
 /* 1 out of 4 */
@@ -151,9 +191,6 @@ CLUSTER MAP
 }
 
 
-body{
-  position:relative;
-}
 
 .tool{
   line-height: 1;
@@ -188,37 +225,42 @@ form {
   line-height: 12px;
   overflow: hidden;
   position: absolute;
-  text-indent: 2px;
 }
 
 /* 1 out of 4 */
 .node.first {
-  border:1px solid black;
+  border: solid 1px gray;
   background:rgba(255, 255, 0, 0.3);
 }
 
 /* 2 out of 4 */
 .node.second{
-  border:1px solid black;
+  border: solid 1px gray;
   background:rgba(255, 255, 0, 0.5);
 }
 
 /* 3 out of 4 */
 .node.third {
-  border:1px solid black;
+  border: solid 1px gray;
   background:rgba(255, 255, 0, 0.7);
 }
 
 /* 4 out of 4 */
 .node.fourth {
-  border:1px solid black;
+  border: solid 1px gray;
   background:rgba(255, 255, 0, 0.9);
 }
 
+/* selected by click */
 .node.selected{
-  border:2px solid black;
-  background-color:#fff;
+  box-shadow : 3px 0px 20px #fff;
+  /*background-color:#fff;*/
 }
+
+.node:hover {
+  opacity:0.7;
+}
+
 
 
 /*----------------------------------------------------
@@ -227,22 +269,21 @@ SCATTER PLOT
 /* 1 out of 4 */
 .dot.first{
   stroke: #000;
-  opacity: 0
   stroke-width:1px;
 }
 
 /* 2 out of 4 */
 .dot.second{
   stroke: #000;
-  /*fill:red;*/
+  fill:red;
   opacity:0.7;
-  stroke-width:1px;
+  stroke-width:2px;
 }
 
 /* 3 out of 4 */
 .dot.third{
   stroke: #000;
-  /*fill:red;*/
+  fill:red;
   opacity:1;
-  stroke-width:1px;
+  stroke-width:3px;
 }
