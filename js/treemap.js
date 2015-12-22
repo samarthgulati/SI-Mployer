@@ -74,10 +74,12 @@ treemap = {
           d3.select(node).attr("class", currentClass.trim());
           //treeFilter.push(filterItem);
           circlePacking.removeFilter(filterItem);
+          CoLMap.removeFilter(filterItem);
         }else{
           d3.select(node).attr("class", currentClass.trim() + " selected");
           //treeFilter.push(filterItem);
           circlePacking.addFilter(filterItem);
+          CoLMap.addFilter(filterItem);
         }
       })
        .call(this.position)
@@ -97,6 +99,20 @@ treemap = {
             case "companyname":
             for(var i=0;i<d.row.length;i++){
               if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+            case "state":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+            case "salary":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection.length==2 && data.selection[0] <= d.row[i][data.type] && data.selection[1] >= d.row[i][data.type]){
                 found = true;
               }
             }
@@ -122,6 +138,20 @@ treemap = {
             case "companyname":
             for(var i=0;i<d.row.length;i++){
               if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+            case "state":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection === d.row[i][data.type]){
+                found = true;
+              }
+            }
+            break;
+            case "salary":
+            for(var i=0;i<d.row.length;i++){
+              if (data.selection.length==2 && data.selection[0] <= d.row[i][data.type] && data.selection[1] >= d.row[i][data.type]){
                 found = true;
               }
             }

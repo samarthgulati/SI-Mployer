@@ -1,3 +1,4 @@
+statesW2E = ['HI', 'AK', 'OR', 'WA', 'CA', 'NV', 'ID', 'AZ', 'MT', 'UT', 'NM', 'CO', 'WY', 'ND', 'SD', 'TX', 'OK', 'NE', 'KS', 'IA', 'MN', 'AR', 'MO', 'LA', 'MS', 'IL', 'WI', 'TN', 'AL', 'IN', 'KY', 'MI', 'GA', 'FL', 'OH', 'WV', 'SC', 'NC', 'VA', 'DC', 'PA', 'MD', 'DE', 'NJ', 'NY', 'CT', 'VT', 'NH', 'RI', 'MA', 'ME', 'Intl'];
 treeMapHeirarchy = ['jobcategory', 'jobtitle'];
 treeMapJson = {
     "name": "root",
@@ -9,25 +10,31 @@ circlepackingJson = {
     "children": []
 };
 treeFilter = [];
+mapDictionary = {};
+mapJson = [];
+var selected = {};
+selected.states = statesW2E;
+selected.jobtitles = [];
+selected.salaryRange = [];
+selected.companies = [];
 
 
 function position() {
     this.style("left", function(d) {
-            return d.x + "px";
-        })
-        .style("top", function(d) {
-            return d.y + "px";
-        })
-        .style("width", function(d) {
-            return Math.max(0, d.dx - 1) + "px";
-        })
-        .style("height", function(d) {
-            return Math.max(0, d.dy - 1) + "px";
-        });
+        return d.x + "px";
+    })
+    .style("top", function(d) {
+        return d.y + "px";
+    })
+    .style("width", function(d) {
+        return Math.max(0, d.dx - 1) + "px";
+    })
+    .style("height", function(d) {
+        return Math.max(0, d.dy - 1) + "px";
+    });
 }
 
 
-<<<<<<< Updated upstream
 function incrementCounter(jsonList, itemToFind, row){
   var itemFound = false;
   $.each(jsonList, function(key, value){
@@ -35,32 +42,12 @@ function incrementCounter(jsonList, itemToFind, row){
       value.count++;
       value.row.push(row)
       itemFound = true;
-    }
-  });
+  }
+});
 
   if (!itemFound){
     jsonList.push({"name": itemToFind, "count":1, "row": [row], "selected": false, "filterCount":0});
-  }
-=======
-function incrementCounter(jsonList, itemToFind, row) {
-    var itemFound = false;
-    $.each(jsonList, function(key, value) {
-        if (typeof value.name != undefined && value.name == itemToFind) {
-            value.count++;
-            itemFound = true;
-        }
-    });
-
-    if (!itemFound) {
-        jsonList.push({
-            "name": itemToFind,
-            "count": 1,
-            "row": row,
-            "selected": false,
-            "filterCount": 0
-        });
-    }
->>>>>>> Stashed changes
+}
 }
 
 function addIfNotPresent(jsonList, itemToFind, row) {
@@ -72,39 +59,61 @@ function addIfNotPresent(jsonList, itemToFind, row) {
             location = key;
         }
     });
-<<<<<<< Updated upstream
-  if (!itemFound){
-    var length = jsonList.push({"name": itemToFind, "children":[], "row": [row], "selected": false, "filterCount":0 });
-    location = length-1;
-  }
-=======
-    if (!itemFound) {
-        var length = jsonList.push({
-            "name": itemToFind,
-            "children": [],
-            "row": row,
-            "selected": false,
-            "filterCount": 0
-        });
-        location = length - 1;
+    if (!itemFound){
+        var length = jsonList.push({"name": itemToFind, "children":[], "row": [row], "selected": false, "filterCount":0 });
+        location = length-1;
     }
->>>>>>> Stashed changes
-
     return location;
 }
+
+function createMapDictionary(usJson, col){
+    for (var i=0;i<usJson.features.length;i++){
+        var state = usJson.features[i].properties.name;
+        mapDictionary[state] = {};
+        mapDictionary[state].code = usJson.features[i].properties.name;
+        mapDictionary[state].geometry = usJson.features[i].geometry;
+        mapDictionary[state].id = usJson.features[i].id;
+        mapDictionary[state].properties = usJson.features[i].properties;
+        mapDictionary[state].type = usJson.features[i].type;
+    }
+    for (var i=0;i<col.length;i++){
+        var state = col[i].code;
+        mapDictionary[state].index = col[i].index;
+        mapDictionary[state].longitude = col[i].longitude;
+        mapDictionary[state].rank = col[i].rank;
+        mapDictionary[state].fullname = col[i].state;
+        mapDictionary[state].row = [];
+        mapDictionary[state].filterCount = 0;
+    }
+    /*mapDictionary["Intl"] = {};
+    mapDictionary["Intl"].code = "Intl";
+    mapDictionary["Intl"].geometry = null;
+    mapDictionary["Intl"].id = null;
+    mapDictionary["Intl"].index = null;
+    mapDictionary["Intl"].longitude = null;
+    mapDictionary["Intl"].rank =null;
+    mapDictionary["Intl"].fullname = "International";
+    mapDictionary["Intl"].row = [];*/
+}
+
+function createMapData(){
+    for (var i=0;i<statesW2E.length;i++){
+        var state = statesW2E[i];
+        if (state!="Intl"){
+            mapJson.push(mapDictionary[state]);
+        }
+    }
+}
+
 
 
 $(document).ready(function() {
     var columns = ['id', 'companyname', 'jobtitle', 'jobcategory', 'salary', 'infladj15', 'state', 'industry', 'companyfunding', 'year'];
-    var statesW2E = ['HI', 'AK', 'OR', 'WA', 'CA', 'NV', 'ID', 'AZ', 'MT', 'UT', 'NM', 'CO', 'WY', 'ND', 'SD', 'TX', 'OK', 'NE', 'KS', 'IA', 'MN', 'AR', 'MO', 'LA', 'MS', 'IL', 'WI', 'TN', 'AL', 'IN', 'KY', 'MI', 'GA', 'FL', 'OH', 'WV', 'SC', 'NC', 'VA', 'DC', 'PA', 'MD', 'DE', 'NJ', 'NY', 'CT', 'VT', 'NH', 'RI', 'MA', 'ME', 'Intl'];
+    
     var col = [],
-        json = [],
-        usJson = {};
-    var selected = {};
-    selected.states = statesW2E;
-    selected.jobtitles = [];
-    selected.salaryRange = [];
-    selected.companies = [];
+    json = [],
+    usJson = {};
+
 
     var getUrlData = function(url) {
         return $.ajax({
@@ -119,6 +128,13 @@ $(document).ready(function() {
         var dataUrl = 'https://spreadsheets.google.com/feeds/list/1j17ANt3kBna-uU4CiQ0Tbcx7esPVzJ_YAy5x1C9pazY/1/public/basic?alt=json';
         var colUrl = 'data/col.json';
         var usUrl = 'data/us-states.json';
+        getUrlData(colUrl).done(function(data) {
+            col = data;
+        });
+        getUrlData(usUrl).done(function(data) {
+            usJson = data;
+        });
+        createMapDictionary(usJson,col);
         getUrlData(dataUrl).done(function(data) {
             var input = data.feed.entry;
             for (var i in input) {
@@ -135,6 +151,10 @@ $(document).ready(function() {
                     }
                 }
                 if (typeof row.invalid == 'undefined') {
+                    if (row["state"].trim()!="Intl"){                        
+                        mapDictionary[row["state"].trim()].row.push(row);    
+                    }
+                    
                     row['stateLoc'] = statesW2E.indexOf(row.state) + 1;
                     if (row['stateLoc'] === 0) row['stateLoc'] = statesW2E.length + 2;
                     var positionTreeList = addIfNotPresent(treeMapJson.children, row[treeMapHeirarchy[0]], row);
@@ -145,22 +165,18 @@ $(document).ready(function() {
                 }
             }
         });
-        getUrlData(colUrl).done(function(data) {
-            col = data;
-        });
-        getUrlData(usUrl).done(function(data) {
-            usJson = data;
-        });
 
-        var loading = setInterval(function() {
-            if (col.length > 0 && json.length > 0 && usJson.length > 0) {
-                clearInterval(loading);
-                return;
-            }
-        }, 500);
-    };
 
-    getData();
+
+var loading = setInterval(function() {
+    if (col.length > 0 && json.length > 0 && usJson.length > 0) {
+        clearInterval(loading);
+        return;
+    }
+}, 500);
+};
+
+getData();
 
 
     /*var arrayDiff = function(a1, a2) {
@@ -171,177 +187,44 @@ $(document).ready(function() {
 */
 
 
-    var updateVis = function() {
+var updateVis = function() {
 
-        if (selected.states.length === statesW2E.length) {
+    if (selected.states.length === statesW2E.length) {
 
-            unselectedStates = [];
-            $('.state.unselected').attr('class', function(i, val) {
+        unselectedStates = [];
+        $('.state.unselected').attr('class', function(i, val) {
+            return val.replace('unselected', 'selected');
+        });
+
+    } else {
+
+        $('.state.selected').attr('class', function(i, val) {
+            return val.replace('selected', 'unselected');
+        });
+
+        for (var s in selected.states) {
+
+            $('.state.unselected.' + selected.states[s]).attr('class', function(i, val) {
                 return val.replace('unselected', 'selected');
             });
-
-        } else {
-
-            $('.state.selected').attr('class', function(i, val) {
-                return val.replace('selected', 'unselected');
-            });
-
-            for (var s in selected.states) {
-
-                $('.state.unselected.' + selected.states[s]).attr('class', function(i, val) {
-                    return val.replace('unselected', 'selected');
-                });
-            }
         }
+    }
 
-    };
+};
 
-    var CoLMap = {
 
-        createGraph: function() {
-            var mapRatio = 1.6, // w/h
-                mapWidth, mapHeight;
-            if (window.outerWidth > window.outerHeight) {
-                mapWidth = (window.outerHeight * mapRatio) / 2.1;
-                mapHeight = window.outerHeight / 2.1;
-            } else {
-                mapWidth = window.outerWidth / 2.1;
-                mapHeight = window.outerWidth / (2.1 * mapRatio);
-            }
 
-            var idx = col.map(function(d) {
-                return d.index;
-            });
+var drawSalaryPlot = function() {
 
-            var quantize = d3.scale.quantize()
-                .domain([d3.min(idx), d3.max(idx)])
-                .range(colorbrewer['Blues'][9]);
-
-            var scaleRatio = 4 / 3; //scale/width
-
-            var projection = d3.geo.albersUsa()
-                .scale(scaleRatio * mapWidth)
-                .translate([mapWidth / 2, mapHeight / 2]);
-
-            var path = d3.geo.path()
-                .projection(projection);
-
-            var svg = d3.select("#location").append("svg")
-                .attr("width", mapWidth)
-                .attr("height", mapHeight);
-
-            var stateIdx = {};
-            col.map(function(d) {
-                stateIdx[d.code] = JSON.parse(JSON.stringify(d));
-            });
-
-            var states = svg.append("g")
-                .attr("id", "states");
-            states.selectAll("path")
-                .data(usJson.features)
-                .enter().append("path")
-
-            .attr("d", path)
-                .attr("fill", function(d) {
-                    return quantize(stateIdx[d.properties.name].index);
-                })
-                .attr("class", function(d) {
-                    return d.properties.name + ' state selected';
-                })
-                .attr("filterCount", 0)
-                .on("click", this.handleSelect)
-                .append("svg:title")
-                .text(function(d) {
-                    return stateIdx[d.properties.name].state;
-                });
-        },
-        handleSelect: function(e) {
-            var data = {};
-            data.selection = e.properties.name;
-            data.type = 'state';
-
-            if (selected.states.length === statesW2E.length) {
-                selected.states = [e.properties.name];
-                //treemap.addFilter(data);
-                //circlePacking.addFilter(data);
-                CoLMap.addFilter(data);
-            } else {
-                if (selected.states.indexOf(e.properties.name) > -1) {
-                    selected.states.splice(selected.states.indexOf(e.properties.name), 1);
-                    //treemap.removeFilter(data);
-                    //circlePacking.removeFilter(data);
-                    CoLMap.removeFilter(data);
-                    if (selected.states.length === 0) {
-                        selected.states = statesW2E;
-                    }
-                } else {
-                    selected.states.push(e.properties.name);
-                    //treemap.addFilter(data);
-                    //circlePacking.addFilter(data);
-                    CoLMap.addFilter(data);
-                }
-            }
-
-            updateVis();
-        },
-        getStates: function(data) {
-            var selectedStates = [];
-            // loop through all rows
-            json.forEach(function(d) {
-                // if the selection matches with the type in current row
-                if (d[data.type] === data.selection) {
-                    // push the selected State to the array if not already present
-                    if (selectedStates.indexOf(d.state) === -1) {
-                        selectedStates.push(d.state);
-                    }
-                }
-            });
-            return selectedStates;
-        },
-        addFilter: function(data) {
-            var selectedStates = this.getStates(data);
-            // for all the states in the selected state increment their filterCount attr
-            for (var i in selectedStates) {
-                var filterCount = parseInt($('.state.' + selectedStates[i])[0].getAttribute('filterCount')) + 1;
-                $('.state.' + selectedStates[i])[0].setAttribute('filterCount', filterCount);
-                console.log($('.state.' + selectedStates[i]));
-            }
-            $('.state').attr('class', function(i, val) {
-                if (val.split(' ').indexOf(d.state) > -1) {
-                    console.log(this.getAttribute('filtercount'));
-                }
-            });
-        },
-        removeFilter: function(data) {
-            var selectedStates = this.getStates(data);
-            // for all the states in the selected state increment their filterCount attr
-            for (var i in selectedStates) {
-                var filterCount = parseInt($('.state.' + selectedStates[i])[0].getAttribute('filterCount')) - 1;
-                $('.state.' + selectedStates[i])[0].setAttribute('filterCount', filterCount);
-                console.log($('.state.' + selectedStates[i]));
-            }
-            $('.state').attr('class', function(i, val) {
-                if (val.split(' ').indexOf(d.state) > -1) {
-                    console.log(this.getAttribute('filtercount'));
-                }
-            });
-
-        }
-
-    };
-
-    
-    var drawSalaryPlot = function() {
-
-        var margin = {
-                top: 20,
-                right: 0,
-                bottom: 30,
-                left: 80
-            },
-            width = window.outerWidth / 1.1 - margin.left - margin.right,
-            height = window.outerHeight / 2.25 - margin.top - margin.bottom,
-            legendWidth = 150;
+    var margin = {
+        top: 20,
+        right: 0,
+        bottom: 30,
+        left: 80
+    },
+    width = window.outerWidth / 1.1 - margin.left - margin.right,
+    height = window.outerHeight / 2.25 - margin.top - margin.bottom,
+    legendWidth = 150;
 
         /* 
          * value accessor - returns the value to encode for a given data object.
@@ -352,7 +235,7 @@ $(document).ready(function() {
 
         // setup x 
         var xValue = function(d) {
-                return d.state;
+            return d.state;
             }, // data -> value
             xScale = d3.scale.ordinal().rangeRoundBands([0, width - legendWidth], 1), // value -> display
 
@@ -364,7 +247,7 @@ $(document).ready(function() {
 
         // setup y
         var yValue = function(d) {
-                return d.salary;
+            return d.salary;
             }, // data -> value
             salaryMap = json.map(function(d) {
                 return d.salary;
@@ -379,15 +262,15 @@ $(document).ready(function() {
         // add the graph canvas to the body of the webpage
 
         var svg = d3.select("#salary").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         // add the tooltip area to the webpage
         var tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
         // don't want dots overlapping axis, so add in buffer to data domain
         xScale.domain(statesW2E);
@@ -395,89 +278,90 @@ $(document).ready(function() {
 
         // x-axis
         svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .append("text")
-            .attr("class", "label")
-            .attr("x", width - legendWidth)
-            .attr("y", -6)
-            .style("text-anchor", "end")
-            .text("States");
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .append("text")
+        .attr("class", "label")
+        .attr("x", width - legendWidth)
+        .attr("y", -6)
+        .style("text-anchor", "end")
+        .text("States");
         svg.select(".x.axis")
-            .selectAll("text")
+        .selectAll("text")
             //.attr("transform", " translate(0,15) rotate(-65)") // To rotate the texts on x axis. Translate y position a little bit to prevent overlapping on axis line.
             .style("font-size", "9px"); //To change the font size of texts
 
         // y-axis
         svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-            .append("text")
-            .attr("class", "label")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Salary");
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("class", "label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Salary");
 
         // draw dots
         svg.selectAll(".dot")
-            .data(json)
-            .enter().append("circle")
-            .attr("class", "dot")
-            .attr("r", 3.5)
-            .attr("cx", xMap)
-            .attr("cy", yMap)
-            .style("fill", function(d) {
-                return colorJobCategory(d.jobcategory);
-            })
-            .on("mouseover", function(d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html(d.jobtitle + "<br/> (" + xValue(d) + ", $" + yValue(d) + ")")
-                    .style("left", (d3.event.pageX + 5) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+        .data(json)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("r", 3.5)
+        .attr("cx", xMap)
+        .attr("cy", yMap)
+        .style("fill", function(d) {
+            return colorJobCategory(d.jobcategory);
+        })
+        .on("mouseover", function(d) {
+            tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+            tooltip.html(d.jobtitle + "<br/> (" + xValue(d) + ", $" + yValue(d) + ")")
+            .style("left", (d3.event.pageX + 5) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", function(d) {
+            tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
         // draw legend
         var legend = svg.selectAll(".legend")
-            .data(cJobCategory.domain())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) {
-                return "translate(0," + i * 20 + ")";
-            });
+        .data(cJobCategory.domain())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) {
+            return "translate(0," + i * 20 + ")";
+        });
 
         // draw legend colored rectangles
         legend.append("rect")
-            .attr("x", width - legendWidth + 10)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", cJobCategory);
+        .attr("x", width - legendWidth + 10)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", cJobCategory);
 
         // draw legend text
         legend.append("text")
-            .attr("x", width - legendWidth + 32)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "start")
-            .attr("font-size", "11px")
-            .text(function(d) {
-                return d;
-            });
+        .attr("x", width - legendWidth + 32)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .attr("font-size", "11px")
+        .text(function(d) {
+            return d;
+        });
 
     };
 
 
     //drawCoLMap();
     drawSalaryPlot();
+    createMapData(usJson,col);
     CoLMap.createGraph();
     circlePacking.createGraph(460);
     treemap.createGraph();
