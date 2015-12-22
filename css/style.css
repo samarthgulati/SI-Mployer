@@ -1,46 +1,196 @@
+.tab-pane {
+  margin: auto 0;
+}
+
+.state {
+  stroke: #08306b;
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.state:hover {
+  stroke-width: 2;
+}
+
+.state.unselected {
+  fill: #efefef;
+}
+
+.state.first{
+  stroke: #fff;
+  fill:red;
+  opacity: .5;
+  stroke-width:1px;
+}
+
+.state.second{
+  stroke: #fff;
+  fill:red;
+  opacity:0.7;
+  stroke-width:1px;
+}
+
+.state.third{
+  stroke: #fff;
+  fill:red;
+  opacity:1;
+  stroke-width:1px;
+}
+
+
+.dot, .legend {
+  cursor: pointer;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.tooltip {
+  background-color: #fff;
+  border-radius: 4px;
+  border: #aeaeae 1px solid;
+  padding: 4px;
+}
+
+/*--------------------------------------------------Anubhav CSS changes-------------------------------------------------------*/
+.alignCenter{
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:0;
+  padding-right:0;
+}
+
+.circlenode {
+  cursor: pointer;
+}
+
+.circlenode.selected{
+  stroke: #fff;
+  fill:green;
+  stroke-width:1px;
+}
+
+.circlenode.first{
+  stroke: #fff;
+  fill:red;
+  opacity: .5;
+  stroke-width:1px;
+}
+
+.circlenode.second{
+  stroke: #fff;
+  fill:red;
+  opacity:0.7;
+  stroke-width:1px;
+}
+
+.circlenode.third{
+  stroke: #fff;
+  fill:red;
+  opacity:1;
+  stroke-width:1px;
+}
+
+.circlenode:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.circlenode--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.circlenode--root{
+  pointer-events: none;
+}
+
+
 body{
-	position:relative;
+  position:relative;
 }
 
 .tool{
-	line-height: 1;
-	padding: 12px;
-	background: rgba(0, 0, 0, 0.8);
-	color: #fff;
-	border-radius: 2px;
-	position: absolute;
+  line-height: 1;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  position: absolute;
 }
 
 #treemap {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	margin: auto;
-	position: relative;
-	width: 960px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
 }
 
 form {
-	position: absolute;
-	right: 10px;
-	top: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
-#treemap .node {
-	border: solid 1px white;
-	font: 10px sans-serif;
-	line-height: 12px;
-	overflow: hidden;
-	position: absolute;
-	text-indent: 2px;
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
 }
 
-.dc-chart g.state path {
-	stroke: #08306b;
+.node.first {
+  border:1px solid black;
+  background:rgba(255, 255, 0, 0.3);
 }
 
-.dc-chart .selected path {
-	stroke-width: 1;
+.node.second{
+  border:1px solid black;
+  background:rgba(255, 255, 0, 0.5);
 }
 
-.dc-chart g.deselected path{
-	fill: #afafaf;
+.node.third {
+  border:1px solid black;
+  background:rgba(255, 255, 0, 0.7);
+}
+
+.node.fourth {
+  border:1px solid black;
+  background:rgba(255, 255, 0, 0.9);
+}
+
+.node.selected{
+  border:2px solid black;
+  background-color:#fff;
+}
+
+.dot.first{
+  stroke: #000;
+  stroke-width:1px;
+}
+
+.dot.second{
+  stroke: #000;
+  fill:red;
+  opacity:0.7;
+  stroke-width:2px;
+}
+
+.dot.third{
+  stroke: #000;
+  fill:red;
+  opacity:1;
+  stroke-width:3px;
 }
