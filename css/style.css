@@ -203,23 +203,23 @@ CLUSTER MAP
 /* 1 out of 4 */
 .circlenode.first{
   stroke: #fff;
-  fill:red;
-  opacity: .5;
+  fill:#ff7043;
+  opacity: .3;
   stroke-width:1px;
 }
 
 /* 2 out of 4 */
 .circlenode.second{
   stroke: #fff;
-  fill:red;
-  opacity:0.7;
+  fill:#ff5722;
+  opacity:0.6;
   stroke-width:1px;
 }
 
 /* 4 out of 4 */
 .circlenode.third{
   stroke: #fff;
-  fill:red;
+  fill:#e64a19;
   opacity:1;
   stroke-width:1px;
 }
