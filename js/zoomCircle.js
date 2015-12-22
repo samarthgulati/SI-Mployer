@@ -45,11 +45,13 @@ circlePacking = {
                 //treeFilter.push(filterItem);
                 treemap.removeFilter(filterItem);
                 CoLMap.removeFilter(filterItem);
+                scatterplot.removeFilter(filterItem);
               }else{
                 d3.select(node).attr("class", currentClass.trim() + " selected");
                 //treeFilter.push(filterItem);
                 treemap.addFilter(filterItem);
                 CoLMap.addFilter(filterItem);
+                scatterplot.addFilter(filterItem);
               }
               if (focus !== d && d.children!=null) {
                 zoom(d); 
@@ -141,8 +143,19 @@ return;
 },
 
 addFilter:function(data){
+  if (data.type==='salary'){
+    this.graphObjects.circles.filter(function(d){
+      if (containsInFilterArray(d,data.type)){
+        return d;
+      }
+    }).attr("class", function(d){
+      removeFromFilterArray(d, data.type);
+      return changeClasses(d,this);
+    })
+  }
   var selection = this.graphObjects.circles.filter(function(d){
     if (typeof d.row!='undefined' && d.row.length!=0){
+      
       var found = false;
       switch(data.type){
         case "jobtitle":
@@ -170,6 +183,7 @@ addFilter:function(data){
 
       if (found){
         d.filterCount++;
+        addToFilterArray(d, data.type);
         return d;
       }
     }
@@ -181,6 +195,7 @@ addFilter:function(data){
   removeFilter:function(data){
     var selection = this.graphObjects.circles.filter(function(d){
       if (typeof d.row!='undefined' && d.row.length!=0){
+        
         var found = false;
         switch(data.type){
           case "jobtitle":
@@ -208,6 +223,7 @@ addFilter:function(data){
 
         if (found){
           d.filterCount--;
+          removeFromFilterArray(d, data.type);
           return d;
         }
       }

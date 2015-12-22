@@ -75,11 +75,13 @@ treemap = {
           //treeFilter.push(filterItem);
           circlePacking.removeFilter(filterItem);
           CoLMap.removeFilter(filterItem);
+          scatterplot.removeFilter(filterItem);
         }else{
           d3.select(node).attr("class", currentClass.trim() + " selected");
           //treeFilter.push(filterItem);
           circlePacking.addFilter(filterItem);
           CoLMap.addFilter(filterItem);
+          scatterplot.addFilter(filterItem);
         }
       })
        .call(this.position)
@@ -92,8 +94,19 @@ treemap = {
      },
 
      addFilter:function(data){
+      if (data.type==='salary'){
+        this.graphObjects.rectangles.filter(function(d){
+          if (containsInFilterArray(d,data.type)){
+            return d;
+          }
+        }).attr("class", function(d){
+          removeFromFilterArray(d, data.type);
+          return changeClasses(d,this);
+        })
+      }
       var selection = this.graphObjects.rectangles.filter(function(d){
         if (typeof d.row!='undefined' && d.row.length!=0 && d.children==null){
+
           var found = false;
           switch(data.type){
             case "companyname":
@@ -121,11 +134,12 @@ treemap = {
 
           if (found){
             d.filterCount++;
+             addToFilterArray(d,data.type);
             return d;
           }
         }
       }).attr("class", function(d){
-        console.log(d, this);
+        //console.log(d, this);
         return changeClasses(d, this);
       });
     },
@@ -133,6 +147,7 @@ treemap = {
     removeFilter:function(data){
       var selection = this.graphObjects.rectangles.filter(function(d){
         if (typeof d.row!='undefined' && d.row.length!=0 && d.children==null){
+          
           var found = false;
           switch(data.type){
             case "companyname":
@@ -160,6 +175,7 @@ treemap = {
 
           if (found){
             d.filterCount--;
+            removeFromFilterArray(d, data.type);
             return d;
           }
         }

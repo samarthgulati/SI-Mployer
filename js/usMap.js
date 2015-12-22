@@ -69,6 +69,7 @@ CoLMap = {
                 selected.states = [d.code];
                 treemap.addFilter(filterItem);
                 circlePacking.addFilter(filterItem);
+                scatterplot.addFilter(filterItem);
                 //CoLMap.addFilter(data);
                 //TODO
             } else {
@@ -76,6 +77,7 @@ CoLMap = {
                     selected.states.splice(selected.states.indexOf(d.code), 1);
                     treemap.removeFilter(filterItem);
                     circlePacking.removeFilter(filterItem);
+                    scatterplot.removeFilter(filterItem);
                     //CoLMap.removeFilter(data);
                     if (selected.states.length === 0) {
                         selected.states = statesW2E;
@@ -84,6 +86,7 @@ CoLMap = {
                     selected.states.push(d.code);
                     treemap.addFilter(filterItem);
                     circlePacking.addFilter(filterItem);
+                    scatterplot.addFilter(filterItem);
                     //CoLMap.addFilter(data);
                 }
             }
@@ -127,8 +130,19 @@ CoLMap = {
         },
 
         addFilter: function(data) {
+            if (data.type==='salary'){
+                this.graphObjects.states.filter(function(d){
+                    if (containsInFilterArray(d,data.type)){
+                        return d;
+                    }
+                }).attr("class", function(d){
+                  removeFromFilterArray(d, data.type);
+                  return changeClasses(d,this);
+              })
+            }
             var selection = this.graphObjects.states.filter(function(d){
                 if (typeof d.row!='undefined' && d.row.length!=0){
+                    
                     var found = false;
                     switch(data.type){
                         case "companyname":
@@ -156,6 +170,7 @@ CoLMap = {
 
                     if (found){
                         d.filterCount++;
+                        addToFilterArray(d, data.type);
                         return d;
                     }
                 }
@@ -168,6 +183,7 @@ CoLMap = {
         removeFilter: function(data) {
             var selection = this.graphObjects.states.filter(function(d){
                 if (typeof d.row!='undefined' && d.row.length!=0){
+                    
                     var found = false;
                     switch(data.type){
                         case "companyname":
@@ -195,6 +211,7 @@ CoLMap = {
 
                     if (found){
                         d.filterCount--;
+                        removeFromFilterArray(d, data.type);
                         return d;
                     }
                 }
