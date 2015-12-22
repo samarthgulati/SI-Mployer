@@ -24,6 +24,7 @@ treemap = {
     });
 
     var div = d3.select("#treemap").append("div")
+    .attr("class","treediv")
     .style("position", "relative")
     .style("width", (width + margin.left + margin.right) + "px")
     .style("height", (height + margin.top + margin.bottom) + "px")
@@ -184,6 +185,12 @@ treemap = {
       }).attr("class", function(d){
         return changeClasses(d, this);
       });
+    },
+
+    reset:function(){
+      $(".treediv").remove();
+      this.graphObjects = {};
+      this.createGraph();
     }
   };
 

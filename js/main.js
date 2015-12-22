@@ -14,11 +14,20 @@ treeFilter = [];
 mapDictionary = {};
 mapJson = [];
 scatterJson = [];
-var selected = {};
+selected = {};
 selected.states = statesW2E;
 selected.jobtitles = [];
 selected.salaryRange = [];
 selected.companies = [];
+
+function dataReset(){
+    globalFilterCount = [];
+    selected = {};
+    selected.states = statesW2E;
+    selected.jobtitles = [];
+    selected.salaryRange = [];
+    selected.companies = [];    
+}
 
 
 function position() {
@@ -230,5 +239,9 @@ var updateVis = function() {
     CoLMap.createGraph();
     circlePacking.createGraph(460);
     treemap.createGraph();
+    $('#resetBtn').click(function(event) {
+        /* Act on the event */
+        resetAll();
+    });
 
 });

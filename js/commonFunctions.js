@@ -108,3 +108,11 @@ function decrementGlobalFilter(type){
         filterRemoved();
     }
 }
+
+function resetAll(){
+    dataReset();
+    scatterplot.reset();
+    treemap.reset();
+    CoLMap.reset();
+    circlePacking.reset();
+}

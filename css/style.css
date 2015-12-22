@@ -14,6 +14,7 @@ body{
 
 .nav-tabs-custom {
   border-bottom: 1px solid #4292C6;
+  margin-top:20px;
 }
 
 .nav-tabs-custom > li > a {
@@ -37,6 +38,27 @@ body{
 .nav-tabs-custom > li > a:hover {
   background: rgba(66,146,198,.2) !important;
   border-bottom: rgba(66,146,198,.1) solid 4px;
+}
+
+.topHeading{
+  font-size: 40px;
+  margin-top: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.subheading{
+  text-align: center;
+}
+
+.headingLevel1{
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.content{
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .tab-pane {
@@ -93,7 +115,7 @@ STATE MAP with
 }
 
 .filtered .state.selected.first{
-  opacity:0.5;
+  opacity:0.4;
   fill:green;
   stroke:#000;
 }
@@ -102,7 +124,7 @@ STATE MAP with
 .state.second{
   stroke: #fff;
   fill:red;
-  opacity:0.7;
+  opacity:0.6;
   stroke-width:1px;
 }
 

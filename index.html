@@ -18,50 +18,56 @@
 <body>
     <div class="container">
         <div class="content">
-            <h1>SI Mployer</h1>
-            <p class="lead">Helping you understand the job situation after UMSI</p>
+            <div class="topHeading alignCenter">SI Mployer</div>
+            <p class="lead subheading">Helping you understand the job situation after UMSI</p>
         </div>
         <br>
         <div class="description">
-            <p>Below we have an interactive visualization displaying data from 2011&ndash;2014 career surveys. Through the use of brushing and selection, we will let you explore the data and identify tradeoffs between different jobs, locations, and salaries.</p>
-            <p>There are a couple of things to keep in mind while looking through the data. First of all, keep in mind that the data shown below only indicates salary. Additional benefits like insurance, vacation or sick days, retirement, and other fringe benefits are not reflected. Also, we have two toggles for salary. One adjusts the salary based on inflation, and the other adjusts it based on the cost of living index for each state. Through these toggles we are attempting to provide you both the actual data, and data that is more relevant to you when comparing across two jobs in different states.</p>
-            <p>In addition to the salary display, we have a number of visualizations intended to show and allow selection of job locations, company name, and job category. To help you use this visualization, we have created a step-by-step interaction you can go through to get the salary range based on your criteria. If you just want to explore the interaction, click the 'end the story' button</p>
-            <p>
-                <div id="salary"></div>
-            </p>
-            <div class="row">
-                <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">Salary Selection</div>
-                <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12" id="salarySlider"></div>
+            <p>Below we have an interactive visualization displaying data from 2011&ndash;2014 career surveys. Through the use of multiple selections, we will let you explore the data and identify tradeoffs between different jobs, locations, and salaries.</p>
+            <p>There are a couple of things to keep in mind while looking through the data. First of all, keep in mind that the data shown below only indicates salary. Additional benefits like insurance, vacation or sick days, retirement, and other fringe benefits are not reflected. Also keep in mind that salary is not adjusted based on inflation or on cost of living.</p>
+            <p class="headingLevel1"><strong>The Visualizations</strong></p>
+            <p>The first visualiziation is the salary display. This diplays the salary of all the jobs from our dataset, organized by state. Color corresponds to Job Category. By using the slider below the scatterplot, you can select a specific salary range for filtering.<p>
+                <p>Below the scatterplot are three tabs. These tabs allow filtering by location, company, and job category. The Location tab shows the US state map. The color saturation indicates the index of cost of living in each state (as of 2015). We can see that New York and California have the highest cost of living. Keep cost of living in mind when looking at salary -- one location with high salaries may also have very high housing or other costs.</p>
+                <p>The second tab shows us a cluster map of all the companies from the data. These companies have been organized by company sector. The sectors indicate how the company gets funded -- is it funded by the university, the government, a public entity, etc. The size of the clusters show us how many people from our data are working in each sector or company. For example, we can see at a glance that a large number of students from UMSI are currently working in the private or university sector.</p>
+                <p>The third tab shows a tree map of all the job title organized by job category. These categories are the same color as the ones in the scatterplot. The size of the treemap section indicates how many people have that job title. For example, we can see at a glance that there are a signifiant number of people working as User Experience or UX Designers in the data.</p>
             </div>
-            <div id="salaryRange"></div>
-            
+            <div>
+                <div class="alignCenter" style="width:100px;"><input id="resetBtn" type="button" class="btn btn-danger" value="Reset"/></div>
+                <p>
+                    <div id="salary"></div>
+                </p>
+                <div class="row">
+                    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">Salary Selection</div>
+                    <div class="col-md-10 col-lg-10 col-sm-12 col-xs-12" id="salarySlider"></div>
+                </div>
+                <div id="salaryRange"></div>
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#location" aria-controls="location" role="tab" data-toggle="tab">Location</a>
+                </li>
+                <li role="presentation">
+                    <a href="#company" aria-controls="company" role="tab" data-toggle="tab">Company</a>
+                </li>
+                <li role="presentation">
+                    <a href="#category" aria-controls="category" role="tab" data-toggle="tab">Job Category</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="location">
+                    <div id="us-chart" class="alignCenter"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="company">
+                    <div id="circlepacking" class="alignCenter"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="category">
+                    <div id="treemap"></div>
+                </div>
+            </div>
         </div>
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#location" aria-controls="location" role="tab" data-toggle="tab">Location</a>
-            </li>
-            <li role="presentation">
-                <a href="#company" aria-controls="company" role="tab" data-toggle="tab">Company</a>
-            </li>
-            <li role="presentation">
-                <a href="#category" aria-controls="category" role="tab" data-toggle="tab">Job Category</a>
-            </li>
-        </ul>
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="location">
-                <div id="us-chart" class="alignCenter"></div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="company">
-                <div id="circlepacking" class="alignCenter"></div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="category">
-                <div id="treemap"></div>
-            </div>
-        </div>
-    </div>
-    <!-- /.container -->
+        <!-- /.container -->
     <!-- <table class="table-hover table-bordered">
         <thead>
             <tr></tr>

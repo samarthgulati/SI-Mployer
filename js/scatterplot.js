@@ -236,36 +236,42 @@ scatterplot = {
     			var found = false;
     			switch(data.type){
     				case "jobtitle":
-                   if (data.selection === d[data.type]){
-                      found = true;
-                  }
-                  break;
-                  case "state":
-                  if (data.selection === d[data.type]){
-                      found = true;
-                  }
-                  break;
-                  case "companyname":
-                  if (data.selection === d[data.type]){
-                      found = true;
-                  }
-                  break;
-                  case "salary":
-                  if (data.selection.length==2 && data.selection[0] <= d[data.type] && data.selection[1] >= d[data.type]){
-                    found = true;
-                }
-                break;
+                 if (data.selection === d[data.type]){
+                  found = true;
+              }
+              break;
+              case "state":
+              if (data.selection === d[data.type]){
+                  found = true;
+              }
+              break;
+              case "companyname":
+              if (data.selection === d[data.type]){
+                  found = true;
+              }
+              break;
+              case "salary":
+              if (data.selection.length==2 && data.selection[0] <= d[data.type] && data.selection[1] >= d[data.type]){
+                found = true;
             }
-
-            if (found){
-                d.filterCount--;
-                removeFromFilterArray(d, data.type);
-                return d;
-            }
+            break;
         }
-    }).attr("class", function(d){
-      return changeClasses(d, this);
-  });
+
+        if (found){
+            d.filterCount--;
+            removeFromFilterArray(d, data.type);
+            return d;
+        }
+    }
+}).attr("class", function(d){
+  return changeClasses(d, this);
+});
+},
+reset:function(){
+    $("#salary svg").remove();
+    this.graphObjects = {};
+    this.createGraph();
+
 }
 
 }

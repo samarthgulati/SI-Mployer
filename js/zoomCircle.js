@@ -166,7 +166,7 @@ addFilter:function(data){
   }
   var selection = this.graphObjects.circles.filter(function(d){
     if (typeof d.row!='undefined' && d.row.length!=0){
-      
+
       var found = false;
       switch(data.type){
         case "jobtitle":
@@ -206,7 +206,7 @@ addFilter:function(data){
   removeFilter:function(data){
     var selection = this.graphObjects.circles.filter(function(d){
       if (typeof d.row!='undefined' && d.row.length!=0){
-        
+
         var found = false;
         switch(data.type){
           case "jobtitle":
@@ -241,6 +241,12 @@ addFilter:function(data){
     }).attr("class", function(d){
       return changeClasses(d, this);
     });
+  },
+
+  reset:function(){
+    $("#circlepacking svg").remove();
+    this.graphObjects = {};
+    this.createGraph(460);
   }
 
 }

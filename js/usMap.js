@@ -47,7 +47,8 @@ CoLMap = {
                 return quantize(d.index);
             })
             .attr("class", function(d) {
-                return d.code + ' state selected';
+                //return d.code + ' state selected';
+                return d.code + ' state';
             })
             .attr("filterCount", 0)
             .on("click", this.handleSelect)
@@ -62,7 +63,8 @@ CoLMap = {
 
         handleSelect: function(d) {
             var state = d.code;
-            var currentClass = d3.select(this).attr("class");
+            var node = this;
+            var currentClass = d3.select(node).attr("class");
             var filterItem = {"row": d.row, "selection":state, "type":"state", "parent":null, "parenttype":null};
 
             if (selected.states.length === statesW2E.length) {
@@ -95,7 +97,13 @@ CoLMap = {
             }
 
             //updateVis();
-            if (selected.states.length === statesW2E.length) {
+            if (currentClass.indexOf("selected")>-1){
+                currentClass = currentClass.replace("selected","");
+                d3.select(node).attr("class", currentClass.trim());
+            }else{
+                d3.select(node).attr("class", currentClass.trim() + " selected");
+            }
+            /*if (selected.states.length === statesW2E.length) {
 
                 unselectedStates = [];
                 $('.state.unselected').attr('class', function(i, val) {
@@ -114,7 +122,7 @@ CoLMap = {
                         return val.replace('unselected', 'selected');
                     });
                 }
-            }
+            }*/
         },
 
         getStates: function(data) {
@@ -145,7 +153,7 @@ CoLMap = {
             }
             var selection = this.graphObjects.states.filter(function(d){
                 if (typeof d.row!='undefined' && d.row.length!=0){
-                    
+
                     var found = false;
                     switch(data.type){
                         case "companyname":
@@ -186,7 +194,7 @@ CoLMap = {
         removeFilter: function(data) {
             var selection = this.graphObjects.states.filter(function(d){
                 if (typeof d.row!='undefined' && d.row.length!=0){
-                    
+
                     var found = false;
                     switch(data.type){
                         case "companyname":
@@ -223,6 +231,12 @@ CoLMap = {
             });
 
 
-        }
+        },
 
-    };
+        reset:function(){
+          $("#us-chart svg").remove();
+          this.graphObjects = {};
+          this.createGraph();
+      }
+
+  };
