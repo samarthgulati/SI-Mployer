@@ -211,7 +211,7 @@ CLUSTER MAP
 /* 2 out of 4 */
 .circlenode.second{
   stroke: #fff;
-  fill:#ff5722;
+  fill:#e64a19;
   opacity:0.6;
   stroke-width:1px;
 }
@@ -219,7 +219,7 @@ CLUSTER MAP
 /* 4 out of 4 */
 .circlenode.third{
   stroke: #fff;
-  fill:#e64a19;
+  fill:#d84315;
   opacity:1;
   stroke-width:1px;
 }
