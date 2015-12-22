@@ -64,7 +64,6 @@ circlePacking = {
 var circle = group.append("circle")
 .attr("class", function(d) { return d.parent ? (d.children ? "circlenode" : "circlenode circlenode--leaf") : "circlenode circlenode--root"; })
 .style("fill", function(d) { 
-  debugger;
   if(d.depth==1){
     return cSector(d.name);
   }else if(d.depth==0){

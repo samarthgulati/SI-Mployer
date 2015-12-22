@@ -79,8 +79,8 @@ STATE MAP with
 }
 
 .filtered .state.selected {
-  opacity:1;
-    fill:green;
+  opacity:0.3;
+  fill:green;
   stroke:#000;
 }
 
@@ -94,7 +94,7 @@ STATE MAP with
 
 .filtered .state.selected.first{
   opacity:0.5;
-    fill:green;
+  fill:green;
   stroke:#000;
 }
 
@@ -108,7 +108,7 @@ STATE MAP with
 
 .filtered .state.selected.second{
   opacity:0.7;
-    fill:green;
+  fill:green;
   stroke:#000;
 }
 

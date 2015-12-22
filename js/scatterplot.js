@@ -158,8 +158,10 @@ scatterplot = {
         	min:0,
         	max:salaryMax+100000,
         	values:[0,salaryMax+100000],
-        	slide:this.handleEvent
-        });
+            step:20000
+        }).slider("pips",{
+            rest:"label"
+        }).on("slidechange", this.handleEvent);
     },
 
     handleEvent:function(event, ui){
@@ -169,7 +171,7 @@ scatterplot = {
     	treemap.addFilter(filterItem);
     	circlePacking.addFilter(filterItem);
     	CoLMap.addFilter(filterItem);
-        if (ui.values[0] ==0 && ui.values[1]==(scatterplot.graphObjects.salaryMax+100000)){
+        if (ui.values[0] ==0 && ui.values[1]==180000){
             decrementGlobalFilter(filterItem.type);
             scatterplot.removeFilter(filterItem);
             treemap.removeFilter(filterItem);
