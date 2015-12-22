@@ -270,6 +270,14 @@ scatterplot = {
 reset:function(){
     $("#salary svg").remove();
     this.graphObjects = {};
+    $("#salarySlider").slider({
+        min:0,
+        max:180000,
+        values:[0,180000],
+        step:20000
+    }).slider("pips",{
+        rest:"label"
+    }).on("slidechange", null);
     this.createGraph();
 
 }
