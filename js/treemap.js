@@ -4,8 +4,8 @@ treemap = {
   position: function() {
     this.style("left", function(d) { return d.x + "px"; })
     .style("top", function(d) { return d.y + "px"; })
-    .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
-    .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+    .style("width", function(d) { return Math.max(0, d.dx) + "px"; })
+    .style("height", function(d) { return Math.max(0, d.dy) + "px"; });
   },
 
   createGraph:function(){
@@ -76,12 +76,14 @@ treemap = {
           circlePacking.removeFilter(filterItem);
           CoLMap.removeFilter(filterItem);
           scatterplot.removeFilter(filterItem);
+          decrementGlobalFilter(filterItem.type);
         }else{
           d3.select(node).attr("class", currentClass.trim() + " selected");
           //treeFilter.push(filterItem);
           circlePacking.addFilter(filterItem);
           CoLMap.addFilter(filterItem);
           scatterplot.addFilter(filterItem);
+          incrementGlobalFilter(filterItem.type);
         }
       })
        .call(this.position)

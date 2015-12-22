@@ -1,10 +1,37 @@
+/* OPACITIES */
+/* .first = 0.5 */
+/* .second = 0.75 */
+/* .third = 0.9 */
+/* .fourth = 1.0 */
+
 .tab-pane {
   margin: auto 0;
 }
 
+.filtered .state{
+  opacity: 0.3;
+}
+
+.filtered .circlenode{
+  opacity: 0.3;
+}
+
+.filtered .node{
+  opacity: 0.3;
+}
+
+.filtered .dot{
+  opacity:0.3;
+}
+
+
+/*----------------------------------------------------
+STATE MAP with 
+-------------------------------------------------------*/
+/* State map*/
 .state {
-  stroke: #08306b;
-  stroke-width: 1;
+  /*stroke: #08306b;
+  stroke-width: 1;*/
   cursor: pointer;
 }
 
@@ -13,9 +40,10 @@
 }
 
 .state.unselected {
-  fill: #efefef;
+  /*fill: #efefef;*/
 }
 
+/* 1 out of 4 */
 .state.first{
   stroke: #fff;
   fill:red;
@@ -23,6 +51,7 @@
   stroke-width:1px;
 }
 
+/* 2 out of 4 */
 .state.second{
   stroke: #fff;
   fill:red;
@@ -30,6 +59,7 @@
   stroke-width:1px;
 }
 
+/* 3 out of 4 */
 .state.third{
   stroke: #fff;
   fill:red;
@@ -56,7 +86,9 @@
   padding: 4px;
 }
 
-/*--------------------------------------------------Anubhav CSS changes-------------------------------------------------------*/
+/*----------------------------------------------------
+CLUSTER MAP
+-------------------------------------------------------*/
 .alignCenter{
   margin-left:auto;
   margin-right:auto;
@@ -74,6 +106,7 @@
   stroke-width:1px;
 }
 
+/* 1 out of 4 */
 .circlenode.first{
   stroke: #fff;
   fill:red;
@@ -81,6 +114,7 @@
   stroke-width:1px;
 }
 
+/* 2 out of 4 */
 .circlenode.second{
   stroke: #fff;
   fill:red;
@@ -88,6 +122,7 @@
   stroke-width:1px;
 }
 
+/* 4 out of 4 */
 .circlenode.third{
   stroke: #fff;
   fill:red;
@@ -129,6 +164,11 @@ body{
   position: absolute;
 }
 
+
+
+/*----------------------------------------------------
+TREE MAP
+-------------------------------------------------------*/
 #treemap {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: auto;
@@ -151,21 +191,25 @@ form {
   text-indent: 2px;
 }
 
+/* 1 out of 4 */
 .node.first {
   border:1px solid black;
   background:rgba(255, 255, 0, 0.3);
 }
 
+/* 2 out of 4 */
 .node.second{
   border:1px solid black;
   background:rgba(255, 255, 0, 0.5);
 }
 
+/* 3 out of 4 */
 .node.third {
   border:1px solid black;
   background:rgba(255, 255, 0, 0.7);
 }
 
+/* 4 out of 4 */
 .node.fourth {
   border:1px solid black;
   background:rgba(255, 255, 0, 0.9);
@@ -176,21 +220,29 @@ form {
   background-color:#fff;
 }
 
+
+/*----------------------------------------------------
+SCATTER PLOT
+-------------------------------------------------------*/
+/* 1 out of 4 */
 .dot.first{
   stroke: #000;
+  opacity: 0
   stroke-width:1px;
 }
 
+/* 2 out of 4 */
 .dot.second{
   stroke: #000;
-  fill:red;
+  /*fill:red;*/
   opacity:0.7;
-  stroke-width:2px;
+  stroke-width:1px;
 }
 
+/* 3 out of 4 */
 .dot.third{
   stroke: #000;
-  fill:red;
+  /*fill:red;*/
   opacity:1;
-  stroke-width:3px;
+  stroke-width:1px;
 }

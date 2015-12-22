@@ -151,6 +151,8 @@ scatterplot = {
         });
 
         this.graphObjects.dots = dots;
+        this.graphObjects.salaryMax = salaryMax;
+
 
         $("#salarySlider").slider({
         	min:0,
@@ -167,6 +169,15 @@ scatterplot = {
     	treemap.addFilter(filterItem);
     	circlePacking.addFilter(filterItem);
     	CoLMap.addFilter(filterItem);
+        if (ui.values[0] ==0 && ui.values[1]==(scatterplot.graphObjects.salaryMax+100000)){
+            decrementGlobalFilter(filterItem.type);
+            scatterplot.removeFilter(filterItem);
+            treemap.removeFilter(filterItem);
+            circlePacking.removeFilter(filterItem);
+            CoLMap.removeFilter(filterItem);
+        }else{
+            incrementGlobalFilter(filterItem.type);
+        }
     },
 
     addFilter:function(data){
@@ -219,41 +230,40 @@ scatterplot = {
     },
     removeFilter:function(data){
     	var selection = this.graphObjects.dots.filter(function(d){
-    		if (typeof d.row!='undefined' && d.row.length!=0){
+    		if (typeof d!='undefined'){
     			var found = false;
     			switch(data.type){
     				case "jobtitle":
-    				for(var i=0;i<d.row.length;i++){
-    					if (data.selection === d.row[i][data.type]){
-    						found = true;
-    					}
-    				}
-    				break;
-    				case "state":
-    				for(var i=0;i<d.row.length;i++){
-    					if (data.selection === d.row[i][data.type]){
-    						found = true;
-    					}
-    				}
-    				break;
-    				case "companyname":
-    				for(var i=0;i<d.row.length;i++){
-    					if (data.selection === d.row[i][data.type]){
-    						found = true;
-    					}
-    				}
-    				break;
-    			}
+                   if (data.selection === d[data.type]){
+                      found = true;
+                  }
+                  break;
+                  case "state":
+                  if (data.selection === d[data.type]){
+                      found = true;
+                  }
+                  break;
+                  case "companyname":
+                  if (data.selection === d[data.type]){
+                      found = true;
+                  }
+                  break;
+                  case "salary":
+                  if (data.selection.length==2 && data.selection[0] <= d[data.type] && data.selection[1] >= d[data.type]){
+                    found = true;
+                }
+                break;
+            }
 
-    			if (found){
-    				d.filterCount--;
-    				removeFromFilterArray(d, data.type);
-    				return d;
-    			}
-    		}
-    	}).attr("class", function(d){
-    		return changeClasses(d, this);
-    	});
-    }
+            if (found){
+                d.filterCount--;
+                removeFromFilterArray(d, data.type);
+                return d;
+            }
+        }
+    }).attr("class", function(d){
+      return changeClasses(d, this);
+  });
+}
 
 }

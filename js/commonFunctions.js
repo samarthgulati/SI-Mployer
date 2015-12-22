@@ -1,4 +1,5 @@
 cJobCategory = d3.scale.category20();
+cSector = d3.scale.category10();
 
 function changeClasses(d, node){
 	var filterCount = d.filters.length;
@@ -66,5 +67,44 @@ function containsInFilterArray(d,filtername){
         return true;
     }else{
         return false;
+    }
+}
+
+function filterApplied(){
+    $("body").addClass('filtered');
+}
+
+function filterRemoved(){
+    $("body").removeClass('filtered');
+}
+
+function incrementGlobalFilter(type){
+    if (type=="salary"){
+        var pos = $.inArray(type, globalFilterCount);
+        if (pos===-1){
+            globalFilterCount.push(type);
+        }
+    }else{
+        globalFilterCount.push(type);
+    }
+    
+
+    if (globalFilterCount.length==1){
+        filterApplied();
+    }
+}
+
+function decrementGlobalFilter(type){
+    if (type=="salary"){
+        var pos = $.inArray(type, globalFilterCount);
+        if (pos!=-1){
+            globalFilterCount.splice(pos,1);
+        }
+    }else{
+        globalFilterCount.push(type);
+    }
+
+    if (globalFilterCount.length==0){
+        filterRemoved();
     }
 }

@@ -20,7 +20,7 @@ CoLMap = {
 
             var quantize = d3.scale.quantize()
             .domain([d3.min(idx), d3.max(idx)])
-            .range(colorbrewer['Blues'][9]);
+            .range(colorbrewer['OrRd'][9]);
 
             var scaleRatio = 4 / 3; //scale/width
 
@@ -70,6 +70,7 @@ CoLMap = {
                 treemap.addFilter(filterItem);
                 circlePacking.addFilter(filterItem);
                 scatterplot.addFilter(filterItem);
+                incrementGlobalFilter(filterItem.type);
                 //CoLMap.addFilter(data);
                 //TODO
             } else {
@@ -78,6 +79,7 @@ CoLMap = {
                     treemap.removeFilter(filterItem);
                     circlePacking.removeFilter(filterItem);
                     scatterplot.removeFilter(filterItem);
+                    decrementGlobalFilter(filterItem.type);
                     //CoLMap.removeFilter(data);
                     if (selected.states.length === 0) {
                         selected.states = statesW2E;
@@ -87,6 +89,7 @@ CoLMap = {
                     treemap.addFilter(filterItem);
                     circlePacking.addFilter(filterItem);
                     scatterplot.addFilter(filterItem);
+                    incrementGlobalFilter(filterItem.type);
                     //CoLMap.addFilter(data);
                 }
             }

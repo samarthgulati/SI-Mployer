@@ -46,12 +46,14 @@ circlePacking = {
                 treemap.removeFilter(filterItem);
                 CoLMap.removeFilter(filterItem);
                 scatterplot.removeFilter(filterItem);
+                decrementGlobalFilter(filterItem.type);
               }else{
                 d3.select(node).attr("class", currentClass.trim() + " selected");
                 //treeFilter.push(filterItem);
                 treemap.addFilter(filterItem);
                 CoLMap.addFilter(filterItem);
                 scatterplot.addFilter(filterItem);
+                incrementGlobalFilter(filterItem.type);
               }
               if (focus !== d && d.children!=null) {
                 zoom(d); 
@@ -61,11 +63,21 @@ circlePacking = {
 
 var circle = group.append("circle")
 .attr("class", function(d) { return d.parent ? (d.children ? "circlenode" : "circlenode circlenode--leaf") : "circlenode circlenode--root"; })
-.style("fill", function(d) { return d.children ? circleColor(d.depth) : null; })
+.style("fill", function(d) { 
+  debugger;
+  if(d.depth==1){
+    return cSector(d.name);
+  }else if(d.depth==0){
+    return "#E2F7F3";
+  }else{
+    return null;
+  }
+  //return d.children ? cSector(d.depth) : null; 
+})
 .on('mouseover', function(d,i){
  circleToolTip.transition()    
  .duration(200)    
- .style("opacity", .9);  
+ .style("opacity", 1);  
  circleToolTip.html(function(){
           //console.log(d.name); 
           var content = "<b>"+d.name+"</b>";
